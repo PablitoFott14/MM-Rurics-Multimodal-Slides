@@ -1,0 +1,1622 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><style>
+    /* Hallmark · pre-emit critique: P4 H5 E5 S5 R5 V4 */
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&display=swap');
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: #0a0e1a;
+      color: #e8edf7;
+      padding: 24px;
+    }
+
+    .instructions {
+      max-width: 960px;
+      margin: 0 auto 32px;
+      padding: 16px 20px;
+      background: #141c2e;
+      border: 1px solid #2a3a5c;
+      border-radius: 8px;
+      font-size: 14px;
+      line-height: 1.5;
+      color: #9eb0d4;
+    }
+
+    .instructions strong { color: #fff; }
+
+    .slide {
+      width: 1920px;
+      height: 1080px;
+      margin: 0 auto 40px;
+      position: relative;
+      overflow: hidden;
+      background:
+        radial-gradient(ellipse 900px 700px at 15% 50%, rgba(40, 80, 160, 0.25) 0%, transparent 70%),
+        radial-gradient(ellipse 600px 500px at 85% 30%, rgba(80, 40, 120, 0.15) 0%, transparent 60%),
+        linear-gradient(135deg, #0b1020 0%, #0d1530 40%, #0a0f22 100%);
+      border: 1px solid #1e2d4a;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    }
+
+    .slide::before, .slide::after {
+      content: '';
+      position: absolute;
+      width: 48px;
+      height: 48px;
+      border-color: #e63946;
+      border-style: solid;
+      z-index: 2;
+    }
+    .slide::before { top: 28px; left: 28px; border-width: 3px 0 0 3px; }
+    .slide::after { bottom: 28px; right: 28px; border-width: 0 3px 3px 0; }
+
+    .corner-br, .corner-tl {
+      position: absolute;
+      width: 48px;
+      height: 48px;
+      border-color: #e63946;
+      border-style: solid;
+      z-index: 2;
+    }
+    .corner-tl { top: 28px; right: 28px; border-width: 3px 3px 0 0; }
+    .corner-br { bottom: 28px; left: 28px; border-width: 0 0 3px 3px; }
+
+    .slide-inner {
+      display: grid;
+      grid-template-columns: 1fr 420px;
+      height: 100%;
+      padding: 72px 80px 72px 100px;
+      gap: 40px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .slide.full .slide-inner { grid-template-columns: 1fr; }
+
+    .slide.cover .slide-inner {
+      grid-template-columns: 1fr;
+      justify-items: center;
+      align-content: center;
+      text-align: center;
+      padding: 80px;
+    }
+
+    .content { display: flex; flex-direction: column; justify-content: flex-start; }
+    .slide.cover .content { justify-content: center; }
+
+    .eyebrow {
+      font-size: 22px;
+      font-weight: 600;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: #7eb8ff;
+      margin-bottom: 20px;
+    }
+
+    .section-num {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #e63946;
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      font-size: 64px;
+      font-weight: 800;
+      line-height: 1.1;
+      color: #fff;
+      text-shadow: 0 0 40px rgba(120, 180, 255, 0.35);
+      margin-bottom: 16px;
+    }
+
+    .cover h1 { font-size: 82px; }
+
+    .subtitle {
+      font-size: 28px;
+      font-weight: 600;
+      color: #5eb3ff;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .tagline {
+      font-size: 22px;
+      color: #8fa3c7;
+      margin-top: 8px;
+    }
+
+    .step-badge {
+      display: inline-block;
+      background: rgba(230, 57, 70, 0.2);
+      border: 1px solid #e63946;
+      color: #ff8a96;
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 6px 14px;
+      border-radius: 4px;
+      margin-bottom: 20px;
+    }
+
+    ul {
+      list-style: none;
+      margin-top: 28px;
+    }
+
+    ul li {
+      font-size: 26px;
+      line-height: 1.45;
+      color: #d4dff0;
+      margin-bottom: 18px;
+      padding-left: 28px;
+      position: relative;
+    }
+
+    ul li::before {
+      content: '▸';
+      position: absolute;
+      left: 0;
+      color: #5eb3ff;
+      font-size: 22px;
+    }
+
+    ul li strong { color: #fff; }
+
+    .highlight-box {
+      margin-top: 28px;
+      padding: 20px 24px;
+      background: rgba(94, 179, 255, 0.08);
+      border-left: 4px solid #5eb3ff;
+      border-radius: 0 8px 8px 0;
+      font-size: 24px;
+      line-height: 1.5;
+      color: #b8cce8;
+    }
+
+    .highlight-box strong { color: #fff; }
+
+    .warn-box {
+      margin-top: 28px;
+      padding: 20px 24px;
+      background: rgba(230, 57, 70, 0.10);
+      border-left: 4px solid #e63946;
+      border-radius: 0 8px 8px 0;
+      font-size: 24px;
+      line-height: 1.5;
+      color: #f0c4c8;
+    }
+    .warn-box strong { color: #fff; }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-top: 24px;
+    }
+
+    .mini-block h3 {
+      font-size: 20px;
+      color: #5eb3ff;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 12px;
+    }
+
+    .mini-block ul { margin-top: 0; }
+    .mini-block ul li { font-size: 22px; margin-bottom: 12px; }
+
+    pre.code {
+      margin-top: 20px;
+      background: rgba(8, 12, 24, 0.85);
+      border: 1px solid #24365c;
+      border-radius: 8px;
+      padding: 22px 26px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 20px;
+      line-height: 1.5;
+      color: #cfe0f5;
+      overflow: hidden;
+    }
+    pre.code .c { color: #6f86b0; }
+    pre.code .g { color: #6fe39a; }
+    pre.code .r { color: #ff8a96; }
+    pre.code .k { color: #7eb8ff; }
+
+    .mascot-area {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .mascot-area img {
+      max-height: 720px;
+      max-width: 100%;
+      object-fit: contain;
+      filter: drop-shadow(0 0 30px rgba(255, 120, 60, 0.3));
+    }
+
+    .mascot-placeholder {
+      width: 320px;
+      height: 320px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,100,50,0.2) 0%, transparent 70%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 120px;
+    }
+
+    .footer-meta {
+      position: absolute;
+      bottom: 36px;
+      left: 100px;
+      font-size: 14px;
+      color: #4a5f82;
+      letter-spacing: 0.05em;
+      z-index: 3;
+    }
+
+    .footer-brand {
+      position: absolute;
+      bottom: 36px;
+      right: 100px;
+      font-size: 14px;
+      color: #4a5f82;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      z-index: 3;
+    }
+
+    .workflow-table {
+      margin-top: 20px;
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 20px;
+    }
+
+    .workflow-table th {
+      text-align: left;
+      color: #5eb3ff;
+      font-weight: 700;
+      padding: 8px 12px 8px 0;
+      border-bottom: 1px solid #2a3a5c;
+      font-size: 18px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .workflow-table td {
+      padding: 10px 12px 10px 0;
+      color: #c8d6ec;
+      vertical-align: top;
+      border-bottom: 1px solid rgba(42, 58, 92, 0.5);
+    }
+
+    .workflow-table td:first-child {
+      color: #e63946;
+      font-weight: 700;
+      width: 70px;
+    }
+
+    .workflow-table.scale td:last-child {
+      color: #ff8a96;
+      font-weight: 700;
+      white-space: nowrap;
+      width: 180px;
+    }
+
+    @media print {
+      body { background: #000; padding: 0; }
+      .instructions { display: none; }
+      .slide { page-break-after: always; margin: 0; border: none; box-shadow: none; }
+    }
+  </style><style>body{padding:0;margin:0;background:#0a0e1a;}.instructions{display:none;}.slide{margin:0 auto 24px !important;}</style>
+</head><body><div class="slide cover" id="slide-0">
+  <div class="corner-tl"></div>
+  <div class="corner-br"></div>
+  <div class="slide-inner">
+    <div class="content">
+      <div class="eyebrow">Welcome to</div>
+      <h1>OpenClaw MM Rubrics<br>Multi&nbsp;Turn</h1>
+      <div class="subtitle">Task Authoring</div>
+      <div class="tagline">Intro course &middot; Contributor level</div>
+      <div class="highlight-box" style="margin-top:44px;max-width:1180px;margin-left:auto;margin-right:auto;">
+        OpenClaw agents work inside a persona's own apps and data: their inbox, their files, their calendar, their photos. This course is about building the tasks that put those agents under real pressure: a scenario with something at stake, media the answer genuinely depends on, a conversation that unfolds over several turns, and the rubrics that decide whether the model got it right.
+      </div>
+    </div>
+  </div>
+  <div class="footer-meta">Intro Course</div>
+  <div class="footer-brand">OpenClaw MM &middot; Multi Turn</div>
+</div>
+<div class="slide full" id="slide-1">
+  <div class="corner-tl"></div>
+  <div class="corner-br"></div>
+  <div class="slide-inner">
+    <div class="content">
+      <div class="section-num">Section 1</div>
+      <h1>Your Role</h1>
+      <div class="tagline">You are not answering tasks. You are building the thing that grades a model.</div>
+      <ul>
+        <li>You design <strong>2 to 5 turn</strong> multimodal tasks that stress tools, media and reasoning together</li>
+        <li>You then write the <strong>rubric set</strong> that defines what a correct answer had to look like</li>
+        <li>Every task ships with a <strong>golden.</strong> Proof the task is solvable at all</li>
+      </ul>
+      <div class="two-col">
+        <div class="mini-block">
+          <h3>What you produce</h3>
+          <ul>
+            <li>A universe grounded scenario and Story Draft</li>
+            <li>One opening prompt + up to <strong>four</strong> reactive follow ups</li>
+            <li>Objective and subjective rubric blocks</li>
+          </ul>
+        </div>
+        <div class="mini-block">
+          <h3>Mindset</h3>
+          <ul>
+            <li>Do <strong>not</strong> optimise for first try success</li>
+            <li>A task the model breezes through carries no signal</li>
+            <li>Difficulty must come from the work, not from trivia</li>
+          </ul>
+        </div>
+      </div>
+      <div class="warn-box">Your rubrics become <strong>ground truth</strong> in real model evaluation. A criterion that grades something the prompt never asked for does not just lose you a task. It teaches the model the wrong thing.</div>
+    </div>
+  </div>
+  <div class="footer-meta">Section 1 &middot; Intro</div>
+  <div class="footer-brand">Your Role</div>
+</div>
+<div class="slide full" id="slide-2">
+  <div class="corner-tl"></div>
+  <div class="corner-br"></div>
+  <div class="slide-inner">
+    <div class="content" style="justify-content:flex-start;">
+      <div class="section-num">Section 1</div>
+      <h1>Key Terms</h1>
+      <div class="tagline">The vocabulary the rest of the course assumes</div>
+      <table class="workflow-table" style="margin-top:26px;font-size:22px;">
+        <tr><th style="width:300px;">Term</th><th>Meaning on this project</th></tr>
+        <tr><td style="color:#5eb3ff;">Universe</td><td>One persona's apps, APIs and data: email, messaging, calendar, notes, finance, smart home. Explore it <em>before</em> writing anything.</td></tr>
+        <tr><td style="color:#5eb3ff;">Multimodal</td><td>The solution depends on the <strong>content</strong> of non text input: a number in a PDF, a detail in a photo, a value in a video frame. Not on the file merely existing.</td></tr>
+        <tr><td style="color:#5eb3ff;">Multi turn</td><td>2 to 5 turns. Follow ups behave like a real user: deferred assets, clarifications, revision requests.</td></tr>
+        <tr><td style="color:#5eb3ff;">Story Draft</td><td>What you write before running anything: Agent Objective, Desired Outcome, category and subcategory, and the <code>input_files/</code> ZIP. The model never sees it.</td></tr>
+        <tr><td style="color:#5eb3ff;">Two legs</td><td>Model A produces the trajectory you grade. Milestones distil its requirements. Model B is hinted to the ideal response.</td></tr>
+        <tr><td style="color:#5eb3ff;">Rubric</td><td>One atomic, <strong>self contained</strong>, positively phrased criterion carrying a signed weight and a category. Self contained means it can be rated from the response or trajectory alone, without reopening the inputs.</td></tr>
+        <tr><td style="color:#5eb3ff;">Milestone</td><td>What a turn <strong>required</strong>, stated without the answer and without filenames. An intent spec, not an instruction list.</td></tr>
+        <tr><td style="color:#5eb3ff;">Golden trajectory</td><td>The successful Model B run reached through milestone based hints. It produces the finished ideal artifact and anchors subjective grading.</td></tr>
+      </table>
+    </div>
+  </div>
+  <div class="footer-meta">Section 1 &middot; Intro</div>
+  <div class="footer-brand">Key Terms</div>
+</div>
+<div class="slide full" id="slide-3">
+  <div class="corner-tl"></div>
+  <div class="corner-br"></div>
+  <div class="slide-inner">
+    <div class="content" style="justify-content:flex-start;">
+      <div class="section-num">Section 2</div>
+      <h1>The Workflow</h1>
+      <div class="tagline">Eight steps, two legs, one platform</div>
+      <table class="workflow-table" style="margin-top:26px;font-size:22px;">
+        <tr><th style="width:110px;">Step</th><th style="width:330px;">Phase</th><th>What you do</th></tr>
+        <tr><td>1&ndash;2</td><td>Before running anything</td><td>Explore the universe. Write the Story Draft: Agent Objective, Desired Outcome, category/subcategory, <code>input_files/</code> ZIP.</td></tr>
+        <tr><td>3&ndash;4</td><td>First leg &middot; Model A</td><td>The opening prompt posts automatically. Drive the conversation with 2 to 4 reactive follow ups.</td></tr>
+        <tr><td>5</td><td>Objective rubrics</td><td>Author the objective block against Model A, rate it, justify every failing criterion.</td></tr>
+        <tr><td>6</td><td>Milestones</td><td>Convert the Model A conversation into intent level milestones. One per requirement. Never answer level.</td></tr>
+        <tr><td>7</td><td>Second leg &middot; Model B</td><td>New conversation, <strong>same opening prompt verbatim</strong>. Hint through the milestones until the golden is reached.</td></tr>
+        <tr><td>8</td><td>Subjective rubrics</td><td>Write a presentation only block and rate Model A and the golden side by side.</td></tr>
+      </table>
+      <div class="two-col" style="margin-top:22px;">
+        <div class="mini-block">
+          <h3>Two identifiers, added first</h3>
+          <ul>
+            <li><strong>Environment ID</strong></li>
+            <li><strong>Service Universe Artifact ID.</strong> Without it the artifacts come back empty</li>
+          </ul>
+        </div>
+        <div class="mini-block">
+          <h3>Order is not optional</h3>
+          <ul>
+            <li>Objective rubrics are written <strong>before</strong> milestones</li>
+            <li>The subjective block is written <strong>after</strong> the golden exists</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer-meta">Section 2 &middot; Project Overview</div>
+  <div class="footer-brand">Workflow</div>
+</div>
+<div class="slide" id="slide-4">
+  <div class="corner-tl"></div>
+  <div class="corner-br"></div>
+  <div class="slide-inner">
+    <div class="content">
+      <div class="section-num">Section 2</div>
+      <h1>The Hard Rules</h1>
+      <div class="tagline">Parameters that are checked before anything else is read</div>
+      <ul>
+        <li><strong>Multi turn only.</strong> 2 to 5 total turns. The opening prompt is auto sent; you add at most four follow ups</li>
+        <li><strong>Universe adherence.</strong> Solvable with the Universe Explorer and Input Files, and nothing else</li>
+        <li><strong>Required identifiers.</strong> Environment ID <em>and</em> Service Universe Artifact ID, added in the app</li>
+        <li><strong>Realism.</strong> The scenario has to plausibly fit the persona, the category and the subcategory</li>
+      </ul>
+      <div class="highlight-box">A seeded <strong>user simulator</strong> replays your follow up intent on later runs, including the <strong>Golden Trajectory</strong>. Follow ups must remain reactive in wording and stable in intent.</div>
+      <div class="warn-box">Do not deliver tasks with trajectories that do not represent actual failures or that force failure just to reach the <strong>50% threshold</strong>.</div>
+    </div>
+    <div class="mascot-area">
+      <div style="width:100%;background:rgba(230,57,70,0.07);border:1.5px solid #e63946;border-radius:12px;padding:26px 24px;">
+        <div style="display:inline-block;background:#e63946;color:#0a0e1a;font-size:14px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;padding:5px 12px;border-radius:4px;margin-bottom:16px;">Turn budget</div>
+        <div style="font-size:26px;font-weight:800;color:#fff;line-height:1.25;margin-bottom:14px;">Model A is capped.<br>Model B is not.</div>
+        <div style="font-size:19px;color:#c8d6ec;line-height:1.5;margin-bottom:14px;">Model A: opening prompt + <strong style="color:#fff;">up to four</strong> follow ups.</div>
+        <div style="font-size:19px;color:#c8d6ec;line-height:1.5;">Model B: as many <strong style="color:#fff;">intent level hints</strong> as it takes to reach the golden. The cap belongs to the graded leg, not to the demonstration leg.</div>
+      </div>
+    </div>
+  </div>
+  <div class="footer-meta">Section 2 &middot; Project Overview</div>
+  <div class="footer-brand">Hard Rules</div>
+</div>
+<div class="slide full" id="slide-5">
+  <div class="corner-tl"></div>
+  <div class="corner-br"></div>
+  <div class="slide-inner">
+    <div class="content" style="justify-content:flex-start;">
+      <div class="section-num">Section 2</div>
+      <h1>The Task Package</h1>
+      <div class="tagline">What a finished submission contains</div>
+      <table class="workflow-table" style="margin-top:26px;font-size:22px;">
+        <tr><th style="width:340px;">Component</th><th>Purpose</th></tr>
+        <tr><td style="color:#5eb3ff;">Universe grounded idea</td><td>A scenario solvable only with the tools and data actually present in the loadout.</td></tr>
+        <tr><td style="color:#5eb3ff;">Story Draft</td><td>Agent Objective, Desired Outcome, category/subcategory, <code>input_files/</code> ZIP.</td></tr>
+        <tr><td style="color:#5eb3ff;">Opening prompt</td><td>The user turn sent verbatim. Natural voice, aligned with the universe and subcategory.</td></tr>
+        <tr><td style="color:#5eb3ff;">Model A conversation</td><td>Opening prompt + 2 to 4 follow ups. The leg objective rubrics are authored against.</td></tr>
+        <tr><td style="color:#5eb3ff;">Milestones</td><td>Intent level requirements, grouped by turn, never answer level.</td></tr>
+        <tr><td style="color:#5eb3ff;">Golden</td><td>The ideal response reached by hinting Model B.</td></tr>
+        <tr><td style="color:#5eb3ff;">Rubrics</td><td>Objective + subjective blocks. Rate Model A Present / Not Present; rate the subjective block against both artifacts.</td></tr>
+        <tr><td style="color:#5eb3ff;">Failure justifications</td><td>A three part justification for every failing rubric on Model A.</td></tr>
+      </table>
+      <div class="warn-box" style="margin-top:22px;">Keep the rubric set tight. A block padded out to hit a count is easier to reject than a short block where every criterion earns its place.</div>
+    </div>
+  </div>
+  <div class="footer-meta">Section 2 &middot; Project Overview</div>
+  <div class="footer-brand">Deliverables</div>
+</div>
+<div class="slide" id="slide-6">
+  <div class="corner-tl"></div>
+  <div class="corner-br"></div>
+  <div class="slide-inner">
+    <div class="content">
+      <div class="section-num">Section 2</div>
+      <h1>The Three Required Stages</h1>
+      <div class="tagline">Acquire &rarr; Process &rarr; Decide &rarr; Output</div>
+      <ul>
+        <li><strong>Acquire.</strong> Gather evidence from tools, files and media</li>
+        <li><strong>Process.</strong> Reconcile, rank, score, calculate, apply rules</li>
+        <li><strong>Output.</strong> Produce a defined, verifiable artifact</li>
+      </ul>
+      <div class="highlight-box">The stages have to be <strong>dependent</strong>. If the output could be written without the processing step, or the processing could run without the acquisition step, you have three activities rather than three stages.</div>
+      <div class="warn-box"><strong>Multimodal requirement:</strong> at least one core requirement must depend on examining visual, audio or other media. The intended dimension level depends on how many artifacts must be examined.</div>
+    </div>
+    <div class="mascot-area">
+      <div style="width:100%;background:rgba(94,179,255,0.07);border:1.5px solid #5eb3ff;border-radius:12px;padding:26px 24px;">
+        <div style="display:inline-block;background:#5eb3ff;color:#0a0e1a;font-size:14px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;padding:5px 12px;border-radius:4px;margin-bottom:16px;">Worked shape</div>
+        <div style="font-size:19px;color:#c8d6ec;line-height:1.55;">
+          <div style="margin-bottom:12px;"><strong style="color:#7eb8ff;">Acquire</strong><br>Pull the vendor list out of the shutdown channel; open the receipt photos attached to the prompt.</div>
+          <div style="margin-bottom:12px;"><strong style="color:#7eb8ff;">Process</strong><br>Pair each channel claim with the evidence that supports it. Three groups fall out: cancelled, unconfirmed, not cancelled.</div>
+          <div style="margin-bottom:12px;"><strong style="color:#7eb8ff;">Decide</strong><br>A vendor with a message but no receipt is not cancelled. That call is the task.</div>
+          <div><strong style="color:#7eb8ff;">Output</strong><br>The three groups and the amount owed, written into the named artifact.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer-meta">Section 2 &middot; Project Overview</div>
+  <div class="footer-brand">Three Stages</div>
+</div>
+<div class="slide full" id="slide-7">
+  <div class="corner-tl"></div>
+  <div class="corner-br"></div>
+  <div class="slide-inner">
+    <div class="content" style="justify-content:flex-start;">
+      <div class="section-num">Section 2</div>
+      <h1>Mandatory Architecture</h1>
+      <div class="tagline">If a short single turn linear interaction could finish it, it is too simple</div>
+      <div class="two-col" style="margin-top:24px;align-items:start;">
+        <div class="mini-block">
+          <h3><span style="color:#6fe39a;">&#10003;</span>&nbsp; Every task must have</h3>
+          <ul>
+            <li><strong>Multi stage coordination</strong> with real dependencies between stages</li>
+            <li><strong>Real decision logic.</strong> Ranking, thresholds, rule based comparison, conditionals</li>
+            <li><strong>Multi system coordination</strong> that text only reasoning cannot replace</li>
+            <li><strong>Realistic friction.</strong> Ambiguity, conflicting sources, missing fields, imperfect media</li>
+            <li><strong>Multi turn depth.</strong> A real user genuinely needs to come back</li>
+            <li><strong>A defined artifact</strong>, not exploratory conversation</li>
+            <li><strong>Model differentiation.</strong> Room for models to perform differently</li>
+          </ul>
+        </div>
+        <div class="mini-block">
+          <h3><span style="color:#ff8a96;">&#10007;</span>&nbsp; Do not submit</h3>
+          <ul>
+            <li>Single turn or single step workflows, plain summarisation, basic search</li>
+            <li>Static reasoning with no tool coordination</li>
+            <li>Tasks impossible with the universe loadout</li>
+            <li>Tasks likely to score identically across models</li>
+            <li>Decorative multimodal input nobody has to inspect</li>
+            <li>Image-to-CSV transcription on its own, which is trivial integration</li>
+            <li>Perfectly clean, curated inputs</li>
+          </ul>
+        </div>
+      </div>
+      <div class="warn-box" style="margin-top:22px;"><strong>Length is not depth.</strong> A task that touches four servers across seven steps but draws every fact from one source is a long chore. Overloading a prompt with unrelated requirements is a listed prompt defect, not a difficulty lever.</div>
+    </div>
+  </div>
+  <div class="footer-meta">Section 2 &middot; Project Overview</div>
+  <div class="footer-brand">Architecture</div>
+</div>
+<div class="slide full" id="slide-8">
+  <div class="corner-tl"></div>
+  <div class="corner-br"></div>
+  <div class="slide-inner">
+    <div class="content" style="justify-content:flex-start;">
+      <div class="section-num">Section 2</div>
+      <h1>Core Dimensions</h1>
+      <div class="tagline">The five axes a task is scored on before it is even run</div>
+      <table class="workflow-table" style="margin-top:24px;font-size:21px;line-height:1.35;">
+        <tr><th style="width:250px;">Dimension</th><th style="width:650px;">What it measures</th><th>What it implies</th></tr>
+        <tr><td style="color:#5eb3ff;">Complex</td><td>Branching, recovery, and tool, parser or source diversity per step.</td><td>Planning across several tools, recovery loops or heterogeneous artifacts that require different parsers.</td></tr>
+        <tr><td style="color:#5eb3ff;">Long horizon</td><td>Trajectory length plus persistence. Number of turns in one rollout, whether the agent must interact with existing state, and time spent understanding multimodal artifacts.</td><td>A sustained trajectory or interaction with existing state that must be read, preserved or updated.</td></tr>
+        <tr><td style="color:#5eb3ff;">Objective</td><td>Whether outputs are gradable from rules, sources of truth and formats specified in the prompt itself.</td><td>Every required output is bound by a rule, source or format specification stated in the prompt.</td></tr>
+        <tr><td style="color:#5eb3ff;">Multimodal</td><td>Whether visual, audio or other media is required to complete at least one core requirement. Levels are based on artifact count.</td><td>Core requirements depend on examining and reconciling multiple media artifacts.</td></tr>
+        <tr><td style="color:#5eb3ff;">Cross modal / cross API</td><td>Whether the agent must combine evidence across modalities or services.</td><td>A value from one source is required in a later step, or sources must be cross checked for consistency.</td></tr>
+      </table>
+      <div class="highlight-box" style="margin-top:20px;">These are design targets, not paperwork. If you cannot say which dimension a given requirement is exercising, that requirement is probably filler.</div>
+    </div>
+  </div>
+  <div class="footer-meta">Section 2 &middot; Project Overview</div>
+  <div class="footer-brand">Dimensions</div>
+</div>
+<div class="slide full" id="slide-9">
+  <div class="corner-tl"></div>
+  <div class="corner-br"></div>
+  <div class="slide-inner">
+    <div class="content" style="justify-content:flex-start;">
+      <div class="section-num">Section 2</div>
+      <h1>Categories &amp; Subcategories</h1>
+      <div class="tagline">Pick the pair first, because a mismatch breaks grading downstream</div>
+      <table class="workflow-table" style="margin-top:26px;font-size:22px;">
+        <tr><th style="width:340px;">Category</th><th>Subcategories</th></tr>
+        <tr><td style="color:#5eb3ff;">Visual Learning</td><td>Homework / Problem Solving &middot; Lab / Fieldwork Documentation &middot; Textbook / Lecture Comprehension</td></tr>
+        <tr><td style="color:#5eb3ff;">Commerce &amp; Product</td><td>Visual Shopping / Comparison &middot; Product Listing QA &middot; Brand / Packaging Audit</td></tr>
+        <tr><td style="color:#5eb3ff;">Creative &amp; Media</td><td>Image / Video Editing &middot; Social Media Content Audit &middot; Design / Portfolio Review</td></tr>
+        <tr><td style="color:#5eb3ff;">Operations &amp; QA</td><td>Document / Receipt Processing &middot; Inventory Visual Audit &middot; UI / UX Screenshot Audit &middot; Form filling</td></tr>
+        <tr><td style="color:#5eb3ff;">Health and Wellness</td><td>Skin / Symptom Triage &middot; Nutrition / Meal Logging</td></tr>
+        <tr><td style="color:#5eb3ff;">Property and Space</td><td>Real Estate Listing Review &middot; Interior Design / Renovation</td></tr>
+      </table>
+      <div class="warn-box" style="margin-top:24px;">The pair has to be the natural home for the scenario, not the closest available label. A renovation audit graded under Commerce &amp; Product will be flagged at QC even if the task itself is sound.</div>
+    </div>
+  </div>
+  <div class="footer-meta">Section 2 &middot; Project Overview</div>
+  <div class="footer-brand">Categories</div>
+</div>
+<div class="slide" id="slide-10">
+  <div class="corner-tl"></div>
+  <div class="corner-br"></div>
+  <div class="slide-inner">
+    <div class="content">
+      <div class="section-num">Section 4</div>
+      <h1>Start With The Universe</h1>
+      <div class="tagline">Not with the prompt. The loadout decides what the task can be.</div>
+      <ul>
+        <li>Add the <strong>Service Universe Artifact ID</strong> before you draft a single line</li>
+        <li>Open the Universe Explorer and confirm which servers and data sources are actually loaded</li>
+        <li><strong>Interact with the AI agent early.</strong> Ask it about available tools, data, constraints and workflows worth testing</li>
+        <li><strong>Use SQL queries</strong> to inspect tables, relationships and edge cases. Ask the AI agent to help write or refine a query when useful</li>
+        <li><strong>Let actual depth shape the next action.</strong> Follow what you uncover instead of a rigid sequence</li>
+        <li><strong>Keep a multimodal perspective.</strong> Combine universe findings and multimodal inputs into one realistic, complex context</li>
+        <li>Confirm there is enough material to sustain the opening prompt and its follow ups</li>
+      </ul>
+      <div class="warn-box">Designing for Gmail when only messaging is loaded is an <strong>environment defect</strong>, not a model failure. The task will be rejected.</div>
+      <div class="highlight-box">&ldquo;Undocumented&rdquo; does not mean &ldquo;infeasible&rdquo;. Test the workflow with the AI agent, SQL, the CLI and the tool surface before ruling it out.</div>
+    </div>
+    <div class="mascot-area">
+      <div style="width:100%;background:rgba(94,179,255,0.07);border:1.5px solid #5eb3ff;border-radius:12px;padding:24px 22px;">
+        <div style="display:inline-block;background:#5eb3ff;color:#0a0e1a;font-size:14px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;padding:5px 12px;border-radius:4px;margin-bottom:16px;">Recon checklist</div>
+        <div style="font-size:18px;color:#c8d6ec;line-height:1.5;">
+          <div style="margin-bottom:9px;">&#9744;&nbsp; Service Universe Artifact ID added</div>
+          <div style="margin-bottom:9px;">&#9744;&nbsp; Every required server and data source is loaded</div>
+          <div style="margin-bottom:9px;">&#9744;&nbsp; AI agent asked to surface tools, data and feasible workflows</div>
+          <div style="margin-bottom:9px;">&#9744;&nbsp; SQL used to inspect records and relationships</div>
+          <div style="margin-bottom:9px;">&#9744;&nbsp; Static dates and canonical identifiers checked</div>
+          <div style="margin-bottom:9px;">&#9744;&nbsp; Later steps depend on evidence or state found earlier</div>
+          <div>&#9744;&nbsp; Feasibility confirmed before drafting</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer-meta">Section 4 &middot; Building the Idea</div>
+  <div class="footer-brand">Universe First</div>
+</div>
+<div class="slide full" id="slide-11">
+  <div class="corner-tl"></div>
+  <div class="corner-br"></div>
+  <div class="slide-inner">
+    <div class="content" style="justify-content:flex-start;">
+      <div class="section-num">Section 4</div>
+      <h1>Check It, Never Assume It</h1>
+      <div class="tagline">Static dates and unverified capabilities are the two quiet ways a task breaks</div>
+      <div class="two-col" style="margin-top:26px;align-items:start;">
+        <div class="mini-block">
+          <h3><span style="color:#ffcf6f;">&#9888;</span>&nbsp; Dates are static</h3>
+          <ul>
+            <li>Universe calendars hold fixed dates and do not move with the day the task is run, so &ldquo;next Tuesday&rdquo; can land on a week that holds nothing</li>
+            <li>Anchor to a range you have actually seen in the Universe Explorer, and <strong>write that date reference into the prompt</strong>: &ldquo;the week of 12 May&rdquo;, not &ldquo;next Tuesday&rdquo;</li>
+            <li>Pinned in the prompt, the temporal context stays static and unambiguous. Model A, Model B and the reviewer all read the same window</li>
+          </ul>
+          <pre class="code" style="font-size:19px;margin-top:16px;"><span class="r">BAD</span>&nbsp;&nbsp;&nbsp;Can you check what I have on next Tuesday?
+<span class="g">GOOD</span>&nbsp;&nbsp;Can you check what I have on Tuesday 12 May?</pre>
+        </div>
+        <div class="mini-block">
+          <h3><span style="color:#5eb3ff;">?</span>&nbsp; Not sure it is possible</h3>
+          <ul>
+            <li><strong>Ask the AI agent directly.</strong> It will tell you what it can reach and what it cannot, faster than guessing from the outside</li>
+            <li><strong>Open Agent tool access.</strong> It lists the tools each server exposes, so you can read the real surface before ruling a workflow out</li>
+            <li>A server with few tools is not a weak server. Check what it covers first</li>
+          </ul>
+          <div style="margin-top:14px;background:rgba(8,12,24,0.85);border:1px solid #24365c;border-radius:10px;padding:14px 16px;">
+            <div style="display:flex;align-items:center;gap:12px;margin-bottom:11px;">
+              <span style="display:inline-block;border:1px solid #4a5f8a;border-radius:6px;padding:5px 12px;font-size:16px;color:#c8d6ec;white-space:nowrap;">&#128295;&nbsp; Agent tool access</span>
+              <span style="font-size:16px;color:#6f86b0;">every tool, server by server</span>
+            </div>
+            <div style="font-size:17px;color:#8fa3c7;line-height:1.45;">In the chat panel, <span style="font-family:'JetBrains Mono',monospace;color:#7eb8ff;">/slack /email /calendar /fintrack /messaging</span> generate the SQL for you</div>
+          </div>
+        </div>
+      </div>
+      <div class="warn-box" style="margin-top:22px;">Every fact the model needs must be reachable in the prompts, the input files or the universe data. If it is reachable nowhere, the task is unsolvable and no rubric written against it can be defended.</div>
+    </div>
+  </div>
+  <div class="footer-meta">Section 4 &middot; Building the Idea</div>
+  <div class="footer-brand">Dates And Tools</div>
+</div>
+<div class="slide full" id="slide-12">
+  <div class="corner-tl"></div>
+  <div class="corner-br"></div>
+  <div class="slide-inner">
+    <div class="content" style="justify-content:flex-start;">
+      <div class="section-num">Section 4</div>
+      <h1>Universe And Multimodal Context Together</h1>
+      <div class="tagline">Each has to hold part of the answer, and neither half should stand alone</div>
+      <div class="two-col" style="margin-top:24px;align-items:start;">
+        <div class="mini-block">
+          <h3><span style="color:#6fe39a;">&#10003;</span>&nbsp; What that looks like</h3>
+          <ul>
+            <li>A figure read off a photo is what lets the model find the matching record in the universe</li>
+            <li>The universe supplies what the media cannot: earlier messages, contacts, transaction history, the state of a folder</li>
+            <li>The model has to <strong>read</strong> the universe, not only write to it. Two or three servers coordinate toward one goal</li>
+          </ul>
+          <div class="highlight-box" style="margin-top:14px;font-size:21px;">The handwritten total on a photographed delivery sheet is the only place that figure appears. The payment it should match sits in the finance server, and the two do not agree.</div>
+        </div>
+        <div class="mini-block">
+          <h3><span style="color:#ff8a96;">&#10007;</span>&nbsp; Four ways it goes wrong</h3>
+          <ul>
+            <li><strong>Write only.</strong> Every figure comes from the attachments and the universe is only ever written to. Notes, calendar entries and a draft are output, not interaction</li>
+            <li><strong>Universe dropped.</strong> The media settles everything and nothing is reconciled against what the universe holds</li>
+            <li><strong>Pictures of the universe.</strong> Not simply an image that relates to universe evidence. The defect is an input with no natural reason to exist, or one that copies what the universe already holds while the task pretends it does not: reconciling a receipt screenshot whose amount already sits in FinTrack, email or the messaging thread</li>
+            <li><strong>A cross check nobody could perform.</strong> The reconciliation hangs on an input no person could read, or one contrived past plausibility. Nothing there can be rated, and the model is failed for a defect in the task</li>
+          </ul>
+        </div>
+      </div>
+      <div class="warn-box" style="margin-top:22px;">An image has to be the <strong>only or most reliable source</strong> of at least one fact the task needs. A screenshot of the workspace never is.</div>
+      <div class="highlight-box" style="margin-top:18px;"><strong>The test is ablation.</strong> Take the attachments away and ask whether the task still lands. Performance has to fall by at least <strong>0.50</strong> against the full run, so if the answer barely moves, the media is decorative and the task gets rejected.</div>
+    </div>
+  </div>
+  <div class="footer-meta">Section 4 &middot; Building the Idea</div>
+  <div class="footer-brand">Universe And Multimodal</div>
+</div>
+<div class="slide full" id="slide-13">
+  <div class="corner-tl"></div>
+  <div class="corner-br"></div>
+  <div class="slide-inner">
+    <div class="content" style="justify-content:flex-start;">
+      <div class="section-num">Section 4</div>
+      <h1>Strong Idea vs Weak Idea</h1>
+      <div class="tagline">Define the scenario before you write a single line of conversation</div>
+      <table class="workflow-table" style="margin-top:24px;font-size:22px;">
+        <tr><th style="width:50%;"><span style="color:#6fe39a;">&#10003;</span>&nbsp; Strong</th><th><span style="color:#ff8a96;">&#10007;</span>&nbsp; Weak</th></tr>
+        <tr><td style="color:#6fe39a;">Grounded in data that is actually in the universe</td><td style="color:#f0c4c8;">Generic assistant request</td></tr>
+        <tr><td style="color:#6fe39a;">Requires cross server and multimodal reconciliation</td><td style="color:#f0c4c8;">Single source lookup</td></tr>
+        <tr><td style="color:#6fe39a;">Carries natural friction: messy photos, conflicting records</td><td style="color:#f0c4c8;">Clean textbook dataset</td></tr>
+        <tr><td style="color:#6fe39a;">Plans clear deliverable filenames up front</td><td style="color:#f0c4c8;">Vague request to &ldquo;give me a report&rdquo;</td></tr>
+        <tr><td style="color:#6fe39a;">Has an obvious category / subcategory home</td><td style="color:#f0c4c8;">Forced or unrelated category</td></tr>
+        <tr><td style="color:#6fe39a;">Sustains 2 to 5 turns of genuine follow up</td><td style="color:#f0c4c8;">Fully answered in turn 1</td></tr>
+      </table>
+      <div class="mini-block" style="margin-top:26px;">
+        <h3><span style="color:#ff8a96;">&#10007;</span>&nbsp; Common errors that get a task rejected</h3>
+        <table class="workflow-table" style="margin-top:6px;font-size:20px;">
+          <tr><th style="width:310px;">Issue</th><th>Fix</th></tr>
+          <tr><td>Feasibility with tools</td><td>Explore the universe again and redesign around the servers that are actually loaded</td></tr>
+          <tr><td>Trivial integration</td><td>Add a cross server handoff: a value read off an image used to find the transaction in FinTrack</td></tr>
+          <tr><td>Category relevance</td><td>Read the subcategory definition again and adjust the scenario until the pair is its natural home</td></tr>
+          <tr><td>Contrived inputs</td><td>Use messy real world files, not curated perfect JPGs</td></tr>
+          <tr><td>Unrealistic scenario</td><td>Think like the user. What would this persona actually ask, given their universe, their context and the queries they would already be making</td></tr>
+          <tr><td>Not enough multi turn depth</td><td>Plan the follow ups up front: a deferred asset, a clarification the user held back, a revision to the first artifact, a cross check against another source</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="footer-meta">Section 4 &middot; Building the Idea</div>
+  <div class="footer-brand">Idea Quality</div>
+</div>
+<div class="slide full" id="slide-14">
+  <div class="corner-tl"></div>
+  <div class="corner-br"></div>
+  <div class="slide-inner">
+    <div class="content" style="justify-content:flex-start;">
+      <div class="section-num">Section 5</div>
+      <h1>The Story Draft</h1>
+      <div class="tagline">The planning document you write before anything runs</div>
+      <div class="highlight-box" style="margin-top:20px;">It holds four things: the <strong>Agent Objective</strong>, the <strong>Desired Outcome</strong>, the category and subcategory pair, and the <code>input_files/</code> ZIP covered on the next slide. The Objective says why the task exists and for whom. The Outcome says what the finished answer has to look like.</div>
+      <div class="two-col" style="margin-top:20px;align-items:start;">
+        <div class="mini-block">
+          <h3>Agent Objective</h3>
+          <div style="font-size:20px;color:#c8d6ec;line-height:1.45;">The persona, the problem, the stakes and what success looks like. Never the implementation.</div>
+          <ul style="margin-top:12px;">
+            <li><span style="color:#6fe39a;font-weight:700;">Captures</span> a real persona with real stakes, why the task matters to them, the artifact types success implies, constraints stated as outcomes</li>
+            <li><span style="color:#ff8a96;font-weight:700;">Never</span> &ldquo;act as X agent&rdquo; role play, tool by tool steps, a numbered pipeline, or policy thresholds lifted out of the input files</li>
+          </ul>
+        </div>
+        <div class="mini-block">
+          <h3>Desired Outcome</h3>
+          <div style="font-size:20px;color:#c8d6ec;line-height:1.45;">The inspectable end state. The shape of the answer, not its content.</div>
+          <ul style="margin-top:12px;">
+            <li><span style="color:#6fe39a;font-weight:700;">Captures</span> required artifact names and structure, column names, enums, decision logic, conditional branches, and how the result will be verified</li>
+            <li><span style="color:#ff8a96;font-weight:700;">Never</span> a verbatim answer key, tool fetched values such as balances or names, or an unanchored &ldquo;good quality output&rdquo;</li>
+          </ul>
+        </div>
+      </div>
+      <pre class="code" style="font-size:19px;margin-top:18px;"><span class="g">GOOD</span>  Jordan owns an online running shoe store and needs to triage five
+      customer complaints with photos before replying today.
+<span class="r">BAD</span>   Act as the escalation agent; use the messaging server, the finance
+      server and the uploaded images to...</pre>
+      <div class="warn-box" style="margin-top:18px;">None of this is embedded in the platform and the agent never reads it, so the <strong>opening prompt is the only channel</strong> to the model. Any requirement a rubric enforces has to appear in the prompt or a file the prompt points at. A heading that lives only in the Desired Outcome cannot be graded.</div>
+    </div>
+  </div>
+  <div class="footer-meta">Section 5 &middot; Story Draft</div>
+  <div class="footer-brand">Story Draft</div>
+</div>
+<div class="slide full" id="slide-15">
+  <div class="corner-tl"></div>
+  <div class="corner-br"></div>
+  <div class="slide-inner">
+    <div class="content" style="justify-content:flex-start;">
+      <div class="section-num">Section 5</div>
+      <h1>The <code>input_files/</code> ZIP</h1>
+      <div class="tagline">Every rule here is checked, and real users do not upload perfectly cropped files with descriptive names</div>
+      <div class="two-col" style="margin-top:22px;align-items:start;">
+        <div class="mini-block">
+          <h3><span style="color:#6fe39a;">&#10003;</span>&nbsp; What a real folder looks like</h3>
+          <pre class="code" style="font-size:17px;margin-top:0;padding:16px 20px;">portfolio_export.pdf
+RS_folio_v3.pdf
+Scan_20260304_114522.pdf   <span class="c"># phone scan, skewed</span>
+deck-final-FINAL.pdf
+Screenshot_2026-03-04_142311.png
+portfolio site.png
+Screenshot (18).png
+notes_final.mp3            <span class="c"># 45s, 64 kbps</span>
+studio_review_standard.md</pre>
+          <div style="font-size:18px;color:#b8cce8;margin-top:10px;">Neutral names, mixed conventions, a skewed scan, a short compressed voice memo, and the policy file the prompt refers to.</div>
+          <h3 style="margin-top:18px;"><span style="color:#ff8a96;">&#10007;</span>&nbsp; The same folder, contrived</h3>
+          <pre class="code" style="font-size:17px;margin-top:0;padding:16px 20px;">portfolio_good_1.jpg
+portfolio_good_2.jpg              <span class="c"># perfectly cropped, 4K</span>
+candidate_3_no_case_studies.pdf   <span class="c"># leaks the finding</span></pre>
+        </div>
+        <div class="mini-block">
+          <h3>Hard rules, and each one is checked</h3>
+          <table class="workflow-table" style="margin-top:0;font-size:19px;">
+            <tr><td style="color:#5eb3ff;width:200px;">Downsampling</td><td>Video to <strong>480p</strong>. Images to <strong>1080p or lower</strong>. Audio to <strong>MP3 at 64&nbsp;kbps</strong>.</td></tr>
+            <tr><td style="color:#5eb3ff;">Audio length</td><td>Keep it short. Past roughly <strong>5 to 10 minutes</strong> risks a timeout or prompt error.</td></tr>
+            <tr><td style="color:#5eb3ff;">Formats</td><td>Never generate <code>.xlsx</code>, <code>.docx</code> or <code>.pdf</code> with an LLM. No HEIC either: a file that crashes the run is <strong>your</strong> mistake, not the model's.</td></tr>
+            <tr><td style="color:#5eb3ff;">LLM generated cap</td><td>No more than <strong>20%</strong> of all artifacts.</td></tr>
+            <tr><td style="color:#5eb3ff;">No answer leaks</td><td>Filenames, manifests and helper documents must not reveal the finding.</td></tr>
+            <tr><td style="color:#5eb3ff;">No junk files</td><td>No <code>.env</code>, no <code>.key</code>, no leftovers, no meaningless names.</td></tr>
+            <tr><td style="color:#5eb3ff;">Copyright</td><td>CC0 and CC-BY are fine. Avoid CC-BY-NC, Unsplash, Getty and paywalled sources.</td></tr>
+            <tr><td style="color:#5eb3ff;">PII</td><td>No faces of non public figures. Synthetic persona data only.</td></tr>
+          </table>
+        </div>
+      </div>
+      <div class="warn-box" style="margin-top:20px;">Messy is not the same as unusable. Blurry but readable is realism; illegible to a human is a task defect you will not be able to grade against.</div>
+    </div>
+  </div>
+  <div class="footer-meta">Section 5 &middot; Story Draft</div>
+  <div class="footer-brand">Input Files</div>
+</div>
+<div class="slide full" id="slide-16">
+  <div class="corner-tl"></div>
+  <div class="corner-br"></div>
+  <div class="slide-inner">
+    <div class="content" style="justify-content:flex-start;">
+      <div class="section-num">Section 6</div>
+      <h1>The Opening Prompt</h1>
+      <div class="tagline">One turn, sent verbatim, in the user's voice</div>
+      <div style="margin-top:14px;font-size:20px;color:#f0c4c8;line-height:1.45;border-left:3px solid #e63946;padding-left:16px;"><strong style="color:#fff;">The prompt is not created at this step.</strong> It belongs to scenario design, not to Prompt Generation, and is drafted in the Section 3 walkthrough. Define it only here and you will be back adjusting the Story Draft, the input files and the follow ups to keep everything aligned.</div>
+      <div class="two-col" style="margin-top:14px;align-items:start;">
+        <div class="mini-block">
+          <h3><span style="color:#6fe39a;">&#10003;</span>&nbsp; Natural</h3>
+          <pre class="code" style="font-size:18px;margin-top:0;padding:16px 20px;">&ldquo;I uploaded the results of the analysis.&rdquo;
+&ldquo;I took photos too but honestly the video is
+the clearest thing I have, especially for
+the bathroom.&rdquo;</pre>
+          <div style="font-size:19px;color:#b8cce8;margin-top:10px;">The user points at what matters the way a person would. Finding the fact inside it is the model's job.</div>
+        </div>
+        <div class="mini-block">
+          <h3><span style="color:#ff8a96;">&#10007;</span>&nbsp; Over explicit</h3>
+          <pre class="code" style="font-size:18px;margin-top:0;padding:16px 20px;">&ldquo;I uploaded IMG_124234.png, IMG_2342384.jpg
+and IMG_1234.jpg, where you can find the
+results of the analysis.&rdquo;
+&ldquo;You can find the receipt in
+Screenshot 23-05-2026 24234324.jpg&rdquo;  <span class="r"># it is not in it</span></pre>
+          <div style="font-size:19px;color:#f0c4c8;margin-top:10px;">The first removes the search. The second is worse. It traps the model with content that is not there.</div>
+        </div>
+      </div>
+      <div class="mini-block" style="margin-top:16px;">
+        <h3>Naming the deliverables</h3>
+        <pre class="code" style="font-size:19px;margin-top:6px;"><span class="r">BAD</span>&nbsp;&nbsp;&nbsp;&ldquo;generate a report with your findings&rdquo;
+<span class="r">BAD</span>&nbsp;&nbsp;&nbsp;&ldquo;create an HTML page to materialize this idea&rdquo;
+<span class="g">GOOD</span>&nbsp;&nbsp;&ldquo;write your findings in final_report.md&rdquo;
+<span class="g">GOOD</span>&nbsp;&nbsp;&ldquo;materialize this idea in landing_page.html&rdquo;</pre>
+        <div style="font-size:19px;color:#b8cce8;margin-top:10px;">Every file a rubric grades is named in the prompt body with unambiguous <strong>create</strong> or <strong>update</strong> intent, including files introduced in a later turn.</div>
+      </div>
+      <div class="warn-box" style="margin-top:12px;font-size:22px;">The recurring filename failures: asking for <code>MEMORY.md</code> to be created when it already exists, or asking for <code>property_match_review.md</code> while the rubrics grade <code>gabriela_listing_audit.csv</code>. The one place a filename never appears is a <strong>milestone</strong>, covered in Section 9.</div>
+    </div>
+  </div>
+  <div class="footer-meta">Section 6 &middot; Prompt Generation</div>
+  <div class="footer-brand">Prompt Rules</div>
+</div>
+<div class="slide full" id="slide-17">
+  <div class="corner-tl"></div>
+  <div class="corner-br"></div>
+  <div class="slide-inner">
+    <div class="content" style="justify-content:flex-start;">
+      <div class="section-num">Section 6</div>
+      <h1>The Follow Up Turns</h1>
+      <div class="tagline">Decide the intent before you run. Write the words after you have read the answer.</div>
+      <div style="display:flex;gap:14px;margin-top:16px;align-items:stretch;">
+        <div style="flex:0 0 auto;background:rgba(8,12,24,0.85);border:1px solid #24365c;border-radius:10px;padding:11px 18px;">
+          <div style="font-size:15px;color:#6f86b0;letter-spacing:1.5px;">TURN 1</div>
+          <div style="font-size:20px;color:#c8d6ec;">The opening prompt, sent automatically</div>
+        </div>
+        <div style="flex:0 0 auto;background:rgba(8,12,24,0.85);border:1px solid #24365c;border-radius:10px;padding:11px 18px;">
+          <div style="font-size:15px;color:#6f86b0;letter-spacing:1.5px;">TURNS 2 TO 5</div>
+          <div style="font-size:20px;color:#c8d6ec;">One to four follow ups, written by you</div>
+        </div>
+        <div style="flex:1;display:flex;align-items:center;font-size:19px;color:#8fa3c7;line-height:1.4;padding-left:4px;">A task with no follow up is not a multi turn task. Two turns is the floor, five the ceiling.</div>
+      </div>
+      <div class="two-col" style="margin-top:20px;align-items:start;">
+        <div class="mini-block">
+          <h3><span style="color:#6fe39a;">&#10003;</span>&nbsp; Four levers, in the user's own voice</h3>
+          <ul>
+            <li style="font-size:20px;margin-bottom:11px;"><strong>A deferred asset.</strong> The thing the user said they would dig out<br><span style="color:#8fa3c7;font-style:italic;">&ldquo;Here is the photo of the delivery slip. The handwritten total is the one to trust.&rdquo;</span></li>
+            <li style="font-size:20px;margin-bottom:11px;"><strong>A clarification held back.</strong> Something they knew in turn 1 and did not think to say<br><span style="color:#8fa3c7;font-style:italic;">&ldquo;Forgot to mention, Marta covered the Tuesday shift, so that one is not mine.&rdquo;</span></li>
+            <li style="font-size:20px;margin-bottom:11px;"><strong>A revision to the artifact.</strong> The audit checks that the model edits it rather than rebuilding it<br><span style="color:#8fa3c7;font-style:italic;">&ldquo;Split the summary into one row per invoice. Leave the rest as it is.&rdquo;</span></li>
+            <li style="font-size:20px;margin-bottom:11px;"><strong>A cross check against another source.</strong> The one that usually finds the failure<br><span style="color:#8fa3c7;font-style:italic;">&ldquo;Before I send this, does it line up with what FinTrack has?&rdquo;</span></li>
+          </ul>
+        </div>
+        <div class="mini-block">
+          <h3><span style="color:#ff8a96;">&#10007;</span>&nbsp; What breaks a follow up</h3>
+          <ul>
+            <li style="font-size:20px;margin-bottom:11px;"><strong>Hinting.</strong> &ldquo;You missed the total on the receipt&rdquo; turns leg 1 into leg 2. You lose the failure you were about to grade, and the audit checks whether the simulator leaked ground truth</li>
+            <li style="font-size:20px;margin-bottom:11px;"><strong>Wording fixed in advance.</strong> A turn written before you read the one it answers will contradict what the model actually did, and it reads as a script rather than a person</li>
+            <li style="font-size:20px;margin-bottom:11px;"><strong>A new topic.</strong> Follow ups build on the artifact. An unrelated ask is asking for the sake of asking, and it is a listed defect</li>
+            <li style="font-size:20px;margin-bottom:11px;"><strong>Nothing left to do.</strong> If turn 1 resolved everything, the follow up becomes a thank you note. That is a turn 1 problem</li>
+            <li style="font-size:20px;margin-bottom:11px;"><strong>Patching your own gap.</strong> A file you forgot, a rule you left out. Fix the task and run it again instead of repairing it mid conversation</li>
+          </ul>
+        </div>
+      </div>
+      <div class="warn-box" style="margin-top:14px;">Everything you ask for in a follow up becomes a milestone and something the rubrics have to grade. Three requests in one turn is three requirements, not one.</div>
+    </div>
+  </div>
+  <div class="footer-meta">Section 6 &middot; Prompt Generation</div>
+  <div class="footer-brand">Follow Ups</div>
+</div>
+<div class="slide full" id="slide-18">
+  <div class="corner-tl"></div>
+  <div class="corner-br"></div>
+  <div class="slide-inner">
+    <div class="content" style="justify-content:flex-start;">
+      <div class="section-num">Section 6</div>
+      <h1>The Prompt Checklist</h1>
+      <div class="tagline">Ten checks before the prompt goes in. Any one of them missing is a rejection reason on its own.</div>
+      <div class="two-col" style="margin-top:34px;align-items:start;">
+        <div class="mini-block">
+          <h3>It sounds like a person</h3>
+          <div style="font-size:22px;color:#c8d6ec;line-height:1.5;">
+            <div style="margin-bottom:40px;padding-left:29px;text-indent:-29px;">&#9744;&nbsp; <strong>Sounds like a real person</strong>, not &ldquo;you are the X agent&rdquo;<br><span style="color:#8fa3c7;font-size:20px;">Role play openers and numbered steps read as a developer specification</span></div>
+            <div style="margin-bottom:40px;padding-left:29px;text-indent:-29px;">&#9744;&nbsp; <strong>Constraints embedded naturally in the user&rsquo;s voice</strong><br><span style="color:#8fa3c7;font-size:20px;">A constraint that feels bolted on is a contrived scenario</span></div>
+            <div style="margin-bottom:40px;padding-left:29px;text-indent:-29px;">&#9744;&nbsp; <strong>Keeps a minimum grammatical consistency</strong></div>
+            <div style="margin-bottom:40px;padding-left:29px;text-indent:-29px;">&#9744;&nbsp; <strong>Closes with a real call to action</strong><br><span style="color:#8fa3c7;font-size:20px;">The model has to know what it is being asked to hand back</span></div>
+            <div style="padding-left:29px;text-indent:-29px;">&#9744;&nbsp; <strong>Leaves room for up to four follow ups</strong><br><span style="color:#8fa3c7;font-size:20px;">A turn 1 that resolves everything wastes the multi turn budget</span></div>
+          </div>
+        </div>
+        <div class="mini-block">
+          <h3>It carries the work</h3>
+          <div style="font-size:22px;color:#c8d6ec;line-height:1.5;">
+            <div style="margin-bottom:40px;padding-left:29px;text-indent:-29px;">&#9744;&nbsp; <strong>Names every required output filename in the prompt body</strong><br><span style="color:#8fa3c7;font-size:20px;">Including files introduced in a later turn. The leading audit failure</span></div>
+            <div style="margin-bottom:40px;padding-left:29px;text-indent:-29px;">&#9744;&nbsp; <strong>Requires genuine multimodal reasoning</strong><br><span style="color:#8fa3c7;font-size:20px;">At least one fact the task needs lives only in the media</span></div>
+            <div style="margin-bottom:40px;padding-left:29px;text-indent:-29px;">&#9744;&nbsp; <strong>Not solvable through text only reasoning</strong><br><span style="color:#8fa3c7;font-size:20px;">Take the attachments away and the answer has to fall apart</span></div>
+            <div style="margin-bottom:40px;padding-left:29px;text-indent:-29px;">&#9744;&nbsp; <strong>Requires real universe interaction</strong><br><span style="color:#8fa3c7;font-size:20px;">The servers are read, not only written to</span></div>
+            <div style="padding-left:29px;text-indent:-29px;">&#9744;&nbsp; <strong>Policies and thresholds live in the input files</strong><br><span style="color:#8fa3c7;font-size:20px;">Never hard coded into the prompt. The model has to go and read them</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="warn-box" style="margin-top:52px;">Run this before you open the Task Runner. Every item here is cheap to fix while the prompt is still a draft and expensive once a trajectory has been graded against it.</div>
+    </div>
+  </div>
+  <div class="footer-meta">Section 6 &middot; Prompt Generation</div>
+  <div class="footer-brand">Prompt Checklist</div>
+</div>
+<div class="slide" id="slide-19">
+  <div class="corner-tl"></div>
+  <div class="corner-br"></div>
+  <div class="slide-inner">
+    <div class="content">
+      <div class="section-num">Section 7</div>
+      <h1>The Two Legs</h1>
+      <div class="tagline">Same prompt, two runs, two different jobs</div>
+      <ul>
+        <li><strong>Leg 1 &middot; Model A.</strong> Produces the trajectory objective rubrics are authored and rated against</li>
+        <li><strong>Milestones.</strong> Convert that conversation into intent level guidance</li>
+        <li><strong>Leg 2 &middot; Model B.</strong> Same opening prompt verbatim, hinted through the milestones until the golden is reached</li>
+      </ul>
+      <div class="highlight-box">Objective rubrics grade <strong>Model A</strong>. Subjective rubrics are created by comparing <strong>Model A and Model B, the golden</strong>, while stepping into the user&rsquo;s shoes. They are not based on any specific trajectory, but on what, according to the scenario intent, meaningfully improves or harms the user experience.</div>
+      <div class="warn-box">There is no separate environment and no &ldquo;silver trajectory&rdquo;. Everything runs through the Task Runner on the same platform.</div>
+    </div>
+    <div class="mascot-area">
+      <div style="width:100%;background:rgba(94,179,255,0.07);border:1.5px solid #5eb3ff;border-radius:12px;padding:24px 22px;">
+        <div style="display:inline-block;background:#5eb3ff;color:#0a0e1a;font-size:14px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;padding:5px 12px;border-radius:4px;margin-bottom:16px;">Four things people get wrong</div>
+        <div style="font-size:18px;color:#c8d6ec;line-height:1.5;">
+          <div style="margin-bottom:13px;"><span style="color:#ff8a96;">&#10007;</span> &ldquo;Model B is capped at four follow ups too.&rdquo;<br><span style="color:#8fa3c7;">It is not. Hint as long as it takes.</span></div>
+          <div style="margin-bottom:13px;"><span style="color:#ff8a96;">&#10007;</span> &ldquo;Write the subjective block before Model B runs.&rdquo;<br><span style="color:#8fa3c7;">It is written after the golden exists.</span></div>
+          <div style="margin-bottom:13px;"><span style="color:#ff8a96;">&#10007;</span> &ldquo;Subjective rubrics are rated on Model B alone.&rdquo;<br><span style="color:#8fa3c7;">Both artifacts, side by side.</span></div>
+          <div><span style="color:#ff8a96;">&#10007;</span> &ldquo;A milestone may name the target value so B can be steered.&rdquo;<br><span style="color:#8fa3c7;">Never. That is answer leaking.</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer-meta">Section 7 &middot; Task Runner</div>
+  <div class="footer-brand">Two Legs</div>
+</div>
+<div class="slide full" id="slide-20">
+  <div class="corner-tl"></div>
+  <div class="corner-br"></div>
+  <div class="slide-inner">
+    <div class="content" style="justify-content:flex-start;">
+      <div class="section-num">Section 7</div>
+      <h1>Leg 1 &middot; Model A</h1>
+      <div class="tagline">Run it, capture it, then prove it was hard enough</div>
+      <div class="two-col" style="margin-top:22px;align-items:start;">
+        <div class="mini-block">
+          <h3>Running the leg</h3>
+          <ul>
+            <li>Let the opening prompt post automatically</li>
+            <li><strong>Download every turn's output</strong> from <code>app/outputs/</code> before you reply</li>
+            <li>Write each follow up reactively, against what the model actually produced</li>
+            <li>Finish with <strong>Complete Conversation</strong>, then <strong>Extract Trajectories</strong>. Never force the session to end</li>
+            <li>Author the objective block after considering the <strong>whole</strong> conversation, not just the last turn</li>
+          </ul>
+        </div>
+        <div class="mini-block">
+          <h3>The 50% failure gate</h3>
+          <ul>
+            <li>List every genuine model mistake across the conversation</li>
+            <li>Estimate the rubric weight each one would fail</li>
+            <li>Model A must fail <strong>at least 50% of total rubric weight</strong> for genuine reasons</li>
+            <li>Below the bar? Add cross modal reconciliation, implicit cross checks or conditional logic</li>
+          </ul>
+        </div>
+      </div>
+      <div style="margin-top:16px;background:rgba(8,12,24,0.85);border:1px solid #24365c;border-radius:10px;padding:13px 18px;display:flex;align-items:center;gap:24px;">
+        <div style="display:flex;gap:9px;flex:0 0 auto;align-items:flex-start;"><div style="border:1px solid #24365c;border-radius:8px;padding:7px 9px;min-width:112px;"><div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#8fa3c7;">aeh-17865534&hellip;</div><div style="font-size:12px;color:#6f86b0;margin-top:3px;">5h 18m</div></div><div style="border:1px solid #24365c;border-radius:8px;padding:7px 9px;min-width:112px;"><div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#8fa3c7;">aeh-17865534&hellip;</div><div style="font-size:12px;color:#6f86b0;margin-top:3px;">&ndash;&ndash;</div></div><div style="border:1px solid #24365c;border-radius:8px;padding:7px 9px;min-width:112px;"><div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#8fa3c7;">aeh-17865534&hellip;</div><div style="font-size:12px;color:#6f86b0;margin-top:3px;">&ndash;&ndash;</div></div><div style="border:1.5px solid #8b6fe3;border-radius:8px;padding:7px 9px;background:rgba(139,111,227,0.10);min-width:112px;"><div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#c8d6ec;">aeh-17865534&hellip;</div><div style="font-size:12px;color:#6f86b0;margin-top:3px;">1h 44m</div><div style="margin-top:6px;border:1px solid #e0a92a;border-radius:4px;color:#ffcf6f;font-size:11px;text-align:center;padding:2px 0;">&#9733;&nbsp;Preferred</div></div></div>
+        <div style="font-size:19px;color:#8fa3c7;line-height:1.45;"><strong style="color:#fff;">More than one trajectory on the task?</strong> Extract Trajectories can leave several attempts behind. Mark the run your rubrics were written against as <strong style="color:#ffcf6f;">Preferred</strong>, so there is no doubt which one is being graded.</div>
+      </div>
+      <div class="warn-box" style="margin-top:16px;"><strong>The wrong fix.</strong> If Model A succeeds at nearly everything, do not pad the block with format micro specifications until it trips over 50% of the weight. That manufactures failure instead of measuring it, and it is a listed defect. Raise the reasoning difficulty instead.</div>
+      <div class="highlight-box" style="margin-top:14px;">For each suspected mistake, ask: was the correct information actually available? Did the model <em>decide</em>, rather than crash? Can a criterion capture it? Is it one repeated mistake that deserves an aggregate rather than twenty rubrics?</div>
+    </div>
+  </div>
+  <div class="footer-meta">Section 7 &middot; Task Runner</div>
+  <div class="footer-brand">Model A</div>
+</div>
+<div class="slide full" id="slide-21">
+  <div class="corner-tl"></div>
+  <div class="corner-br"></div>
+  <div class="slide-inner">
+    <div class="content" style="justify-content:flex-start;">
+      <div class="section-num">Section 8</div>
+      <h1>Valid vs Invalid Failures</h1>
+      <div class="tagline">Telling these apart is the single most tested judgement on this project</div>
+      <div class="two-col" style="margin-top:18px;align-items:start;">
+        <div class="mini-block">
+          <h3><span style="color:#6fe39a;">&#10003;</span>&nbsp; Valid: a decision the model made</h3>
+          <ul>
+            <li style="font-size:21px;margin-bottom:9px;"><strong>Misread a legible value.</strong> A figure any person could read off the file came through wrong, and the error carried into the artifact</li>
+            <li style="font-size:21px;margin-bottom:9px;"><strong>Filename taken as evidence.</strong> A session called completed without the file being opened. Still valid even if the file would have supported the conclusion, because the claim was never grounded</li>
+            <li style="font-size:21px;margin-bottom:9px;"><strong>Universe evidence never found.</strong> The record was there and reachable, and the model answered without it</li>
+            <li style="font-size:21px;margin-bottom:9px;"><strong>Cross reference collapsed to one side.</strong> Asked to reconcile the media against the universe, it trusted one of them and reported that number as the answer</li>
+            <li style="font-size:21px;margin-bottom:9px;"><strong>Logic flow misapplied.</strong> The prompt and the multimodal context each carry part of the rule, and the model dropped a step or applied them in the wrong order</li>
+            <li style="font-size:21px;margin-bottom:9px;"><strong>An accessible tool left unused.</strong> The server is loaded and the model estimates instead of querying it</li>
+            <li style="font-size:21px;margin-bottom:9px;"><strong>Conditional handled wrong.</strong> The plan marks a session optional and it is counted anyway, or a branch trips that the ground truth never trips and an artifact appears that nobody asked for</li>
+            <li style="font-size:21px;margin-bottom:9px;"><strong>Fabricated precision.</strong> Measurements stated to the millimetre with no ruler in frame</li>
+          </ul>
+        </div>
+        <div class="mini-block">
+          <h3><span style="color:#ff8a96;">&#10007;</span>&nbsp; Not valid: your defect, or the platform's</h3>
+          <ul>
+            <li style="font-size:21px;margin-bottom:9px;"><code>prompt-error</code>, idle timeout, session abort, trajectory execution error. The run broke, the model never got to decide anything</li>
+            <li style="font-size:21px;margin-bottom:9px;">A HEIC file that crashes or times out the run. A forbidden input format is your defect, not a weakness you found</li>
+            <li style="font-size:21px;margin-bottom:9px;">A rubric demanding a heading that appears only in the Desired Outcome</li>
+            <li style="font-size:21px;margin-bottom:9px;">A photo <strong>no human could read either</strong></li>
+            <li style="font-size:21px;margin-bottom:9px;">A source conflict where the prompt never said which source wins, so either answer was defensible</li>
+            <li style="font-size:21px;margin-bottom:9px;"><strong>Contradictory multimodal input.</strong> The prompt asks for the file to be used one way, and the file itself carries an instruction or evidence that rewrites the task</li>
+            <li style="font-size:21px;margin-bottom:9px;"><strong>Contrived scenario.</strong> Verbosity and extra asks piled on to make the task look harder, with no realistic background behind them</li>
+            <li style="font-size:21px;margin-bottom:9px;"><strong>Data that is not in the server</strong>, asked for anyway, then the model penalised for not finding it</li>
+          </ul>
+        </div>
+      </div>
+      <div class="warn-box" style="margin-top:18px;">Never turn the invalid column into failing rubrics, and do not count it as evidence the task is hard. Fix the task instead.</div>
+    </div>
+  </div>
+  <div class="footer-meta">Section 8 &middot; Valid vs Invalid Failures</div>
+  <div class="footer-brand">Failure Judgement</div>
+</div>
+<div class="slide full" id="slide-22">
+  <div class="corner-tl"></div>
+  <div class="corner-br"></div>
+  <div class="slide-inner">
+    <div class="content" style="justify-content:flex-start;">
+      <div class="section-num">Section 9</div>
+      <h1>Milestones</h1>
+      <div class="tagline">The turn by turn intent spec you drive the second leg from</div>
+      <div style="font-size:20px;color:#b8cce8;line-height:1.45;margin-top:12px;">In the finished pipeline a <strong style="color:#fff;">user simulator</strong> plays every turn after the first, reproducing your intent across runs that diverge. Until that is wired up, <strong style="color:#fff;">you are the simulator</strong>, and these milestones are the only script you have.</div>
+      <table class="workflow-table" style="margin-top:14px;font-size:19px;">
+        <tr><th style="width:250px;">Field</th><th>What goes in it</th></tr>
+        <tr><td style="color:#5eb3ff;">Turn</td><td>Which turn of the Model A conversation the requirement came from</td></tr>
+        <tr><td style="color:#5eb3ff;">Modifier</td><td>What this turn does to work that already exists. Covered on the next slide</td></tr>
+        <tr><td style="color:#5eb3ff;">Intent</td><td>What the user wants at this point, stripped of anything specific to the response you happened to receive</td></tr>
+        <tr><td style="color:#5eb3ff;">Follow up prompt</td><td>How to express that intent to a run that produced something different</td></tr>
+        <tr><td style="color:#5eb3ff;">Continuation criteria</td><td>What must be true in the agent&rsquo;s output before you move on to the next milestone</td></tr>
+        <tr><td style="color:#5eb3ff;">Assets delivered here</td><td>Any files handed over at this turn, if the task defers assets</td></tr>
+      </table>
+      <div class="two-col" style="margin-top:14px;align-items:start;">
+        <div class="mini-block">
+          <h3>One per requirement, grouped by turn</h3>
+          <ul>
+            <li style="font-size:20px;margin-bottom:9px;">A follow up carrying three requirements produces <strong>three milestones</strong>, not one</li>
+            <li style="font-size:20px;margin-bottom:9px;">Every milestone is attributable to an identifiable turn</li>
+            <li style="font-size:20px;margin-bottom:0;"><strong>No filenames and no values.</strong> &ldquo;The progress is kept in the created HTML file&rdquo; is the register expected</li>
+          </ul>
+        </div>
+        <div class="mini-block">
+          <h3>Intent, never the answer</h3>
+          <pre class="code" style="font-size:18px;margin-top:0;padding:13px 18px;"><span class="g">INTENT</span>  The information from the test image is added
+        to the video.
+<span class="r">ANSWER</span>  Add the $126 price to the video.
+<span class="g">INTENT</span>  The new photographs are taken into the existing
+        room by room assessment.
+<span class="r">ANSWER</span>  The bathroom moves to finished.</pre>
+        </div>
+      </div>
+      <div class="warn-box" style="margin-top:14px;"><strong>The test:</strong> if a milestone only makes sense against the wording the first model produced, rewrite it so it still lands on a run that took another path.</div>
+    </div>
+  </div>
+  <div class="footer-meta">Section 9 &middot; Milestones</div>
+  <div class="footer-brand">Milestones</div>
+</div>
+<div class="slide full" id="slide-23">
+  <div class="corner-tl"></div>
+  <div class="corner-br"></div>
+  <div class="slide-inner">
+    <div class="content" style="justify-content:flex-start;">
+      <div class="section-num">Section 9</div>
+      <h1>Milestone Modifiers</h1>
+      <div class="tagline">Every milestone carries one. It records what the turn does to work that already exists, which is what makes the turn worth having.</div>
+      <table class="workflow-table" style="margin-top:18px;font-size:19px;">
+        <tr><th style="width:240px;">Modifier</th><th style="width:38%;">When to use it</th><th>What you do as the user</th></tr>
+        <tr><td style="color:#6fe39a;"><code>opening</code></td><td>The first turn, and any later turn that simply adds a new requirement without touching earlier work</td><td>Send the opening prompt verbatim. On a later <code>opening</code> turn, state the new requirement and nothing else</td></tr>
+        <tr><td style="color:#e0a92a;"><code>deferred_asset</code></td><td>Material the opening turn did not put in scope arrives, or is released into scope, at this turn</td><td>Hand it over, or say it is now in scope, and require it to be integrated <strong>against work already done</strong>. Never let the agent start over</td></tr>
+        <tr><td style="color:#8b6fe3;"><code>clarification_gated</code></td><td>The opening prompt is genuinely underspecified on one decision the agent cannot correctly guess</td><td>Hold the answer until the agent <strong>asks</strong>. Do not volunteer it. If it never asks and proceeds anyway, that is a model failure: record it, do not rescue it</td></tr>
+        <tr><td style="color:#5eb3ff;"><code>revision</code></td><td>An artifact has been delivered and the brief now changes</td><td>Change <strong>one thing</strong>, precisely. Correct behaviour is a targeted edit, not a rebuild. Keep the change small enough that regenerating is visibly wasteful</td></tr>
+      </table>
+      <div class="two-col" style="margin-top:18px;align-items:start;">
+        <div class="mini-block">
+          <h3>How to choose</h3>
+          <ul>
+            <li style="font-size:20px;margin-bottom:9px;">Turn 1 is <code>opening</code> unless the task withholds something from scope, in which case it is <code>deferred_asset</code></li>
+            <li style="font-size:20px;margin-bottom:9px;">A turn that adds a genuinely new requirement without touching earlier work stays <code>opening</code>, however late it falls</li>
+            <li style="font-size:20px;margin-bottom:0;">A turn that changes something already delivered is <code>revision</code>, not <code>opening</code></li>
+          </ul>
+        </div>
+        <div class="mini-block">
+          <h3>Driving the leg from them</h3>
+          <ul>
+            <li style="font-size:20px;margin-bottom:9px;">Work the milestones <strong>in order</strong>. Do not skip ahead because the agent got somewhere early. Check the continuation criteria first</li>
+            <li style="font-size:20px;margin-bottom:9px;">Express the same intent <strong>the same way every time</strong>. Variation between runs must come from the model, not from you</li>
+            <li style="font-size:20px;margin-bottom:0;">Steer toward the milestone. Never hand over its answer</li>
+          </ul>
+        </div>
+      </div>
+      <div class="highlight-box" style="margin-top:16px;">The same three appear again as <strong>task level modifiers</strong>, with a target mix across the whole bank: deferred assets on <strong>40%</strong> of tasks, clarification gated on <strong>30%</strong>, revision on <strong>30%</strong>. A task may carry several. Any modifier assigned to your task has to genuinely show up in the conversation, not just in the form.</div>
+    </div>
+  </div>
+  <div class="footer-meta">Section 9 &middot; Milestones</div>
+  <div class="footer-brand">Modifiers</div>
+</div>
+<div class="slide full" id="slide-24">
+  <div class="corner-tl"></div>
+  <div class="corner-br"></div>
+  <div class="slide-inner">
+    <div class="content" style="justify-content:flex-start;">
+      <div class="section-num">Section 9</div>
+      <h1>Milestones &middot; Worked</h1>
+      <div class="tagline">A renovation audit: the scope, the contractor's tracker, a walk through video</div>
+      <div class="two-col" style="margin-top:20px;align-items:start;">
+        <div class="mini-block">
+          <h3><span style="color:#6fe39a;">&#10003;</span>&nbsp; Respects the divisions the turn has</h3>
+          <div style="font-size:19px;color:#c8d6ec;line-height:1.5;margin-bottom:10px;">Turn 1 makes four separate asks, so they are spread across separate checks:</div>
+          <ul>
+            <li>Each room's standing against what was agreed, on the range the user asked for</li>
+            <li>Which agreed items inside each room are finished and which are not</li>
+            <li>What the contractor reports set against what is actually there</li>
+            <li>Work appearing that the signed scope does not authorise</li>
+          </ul>
+        </div>
+        <div class="mini-block">
+          <h3><span style="color:#ff8a96;">&#10007;</span>&nbsp; Two ways to lose the part</h3>
+          <div style="font-size:19px;color:#f0c4c8;line-height:1.5;margin-bottom:10px;"><strong>Everything folded into one milestone.</strong> Four asks that do not collapse into each other, stated inside a single check, is a paraphrase of the prompt rather than an intent spec.</div>
+          <div style="font-size:19px;color:#f0c4c8;line-height:1.5;"><strong>The wrong standard.</strong> &ldquo;Each room is rated after comparing what the tracker says against what the agreement says&rdquo; rates progress against the <em>contractor's claim</em>, not against the scope, and it never compares the claim to what the video shows.</div>
+        </div>
+      </div>
+      <div class="highlight-box" style="margin-top:20px;">Where the divisions are genuinely arguable, either reading is fine. Whether a later turn's update and its grounding are one requirement or two is a judgement call. The line to hold is between <strong>stated</strong> and <strong>implied.</strong> A requirement spelled out earns its place wherever it sits; one the reviewer has to infer does not.</div>
+      <div class="warn-box" style="margin-top:16px;">A constraint the <em>user</em> states, such as the rating range, is not a leak. Requiring each room to be placed on it is intent. What leaks is the position a room ends up at.</div>
+    </div>
+  </div>
+  <div class="footer-meta">Section 9 &middot; Milestones</div>
+  <div class="footer-brand">Milestones Worked</div>
+</div>
+<div class="slide full" id="slide-25">
+  <div class="corner-tl"></div>
+  <div class="corner-br"></div>
+  <div class="slide-inner">
+    <div class="content" style="justify-content:flex-start;">
+      <div class="section-num">Section 10</div>
+      <h1>Leg 2 &middot; The Golden Run</h1>
+      <div class="tagline">Same prompt, same universe, a different model, and no cap on turns</div>
+      <div style="font-size:20px;color:#b8cce8;line-height:1.45;margin-top:14px;">The golden is the <strong style="color:#fff;">ideal response</strong>: what the Model A conversation should have arrived at. You are the user simulator again, and the whole job of this leg is to drive a model there.</div>
+      <div class="two-col" style="margin-top:16px;align-items:start;">
+        <div class="mini-block">
+          <h3>What changes from leg 1</h3>
+          <ul>
+            <li style="font-size:20px;margin-bottom:10px;">The <strong>same eight step workflow</strong>, the same opening prompt sent verbatim, the same universe</li>
+            <li style="font-size:20px;margin-bottom:10px;">A <strong>different model</strong> runs it. If leg 1 went against GPT, this one goes against Opus</li>
+            <li style="font-size:20px;margin-bottom:10px;"><strong>No turn limit.</strong> The two to five turn tier applied to the authoring leg only</li>
+            <li style="font-size:20px;margin-bottom:0;">Attention nudges and a cleanup turn are fine here, as long as they stay at intent level</li>
+          </ul>
+        </div>
+        <div class="mini-block">
+          <h3>The steering loop</h3>
+          <ul>
+            <li style="font-size:20px;margin-bottom:10px;">It stops at <strong>prompt agent</strong> with your opening prompt already loaded. Wait for the first response</li>
+            <li style="font-size:20px;margin-bottom:10px;">Read that response <strong>against your current milestone</strong>, not against the run you saw in leg 1</li>
+            <li style="font-size:20px;margin-bottom:10px;">Milestone met, move to the next one. Not met, hint again and read again</li>
+            <li style="font-size:20px;margin-bottom:0;">When the last milestone is satisfied, <strong>complete the conversation</strong> and the remaining steps finish on their own</li>
+          </ul>
+        </div>
+      </div>
+      <div class="mini-block" style="margin-top:16px;">
+        <h3>What a hint looks like</h3>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0 34px;align-items:start;">
+          <pre class="code" style="font-size:18px;margin-top:0;padding:14px 18px;"><span class="g">HINT</span>  I still cannot see anything from the test
+      image reflected in the video.
+<span class="r">LEAK</span>  Add the $126 price to the video.</pre>
+          <pre class="code" style="font-size:18px;margin-top:0;padding:14px 18px;"><span class="g">HINT</span>  The bathroom photos I sent should be part
+      of the room by room view by now.
+<span class="r">LEAK</span>  Mark the bathroom as finished.</pre>
+        </div>
+        <div style="font-size:19px;color:#8fa3c7;margin-top:11px;">A hint says <strong style="color:#cfe0f5;">what is still missing</strong> from the user&rsquo;s point of view. It never says what to write. If the model can copy your hint into the artifact, you handed over the answer.</div>
+      </div>
+      <div class="warn-box" style="margin-top:16px;">However many hints it takes, every one of them stays at intent level. <strong>&ldquo;Add $126&rdquo; ends the value of the leg.</strong> Steer toward the milestone, never hand over its answer, and keep the intent identical to the one you used in leg 1. Variation between the two runs has to come from the model.</div>
+    </div>
+  </div>
+  <div class="footer-meta">Section 10 &middot; Model B and Golden</div>
+  <div class="footer-brand">The Golden Run</div>
+</div>
+<div class="slide full" id="slide-26">
+  <div class="corner-tl"></div>
+  <div class="corner-br"></div>
+  <div class="slide-inner">
+    <div class="content" style="justify-content:flex-start;">
+      <div class="section-num">Section 10</div>
+      <h1>What Makes It Golden</h1>
+      <div class="tagline">The bar the artifact has to clear, and the three gates on the way out</div>
+      <div class="two-col" style="margin-top:18px;align-items:start;">
+        <div class="mini-block">
+          <h3>The artifact</h3>
+          <ul>
+            <li style="font-size:20px;margin-bottom:10px;">The <strong>same deliverable in its best form</strong>, not a different or a larger deliverable</li>
+            <li style="font-size:20px;margin-bottom:10px;">Satisfies <strong>every objective requirement</strong>, with the filenames the prompt named</li>
+            <li style="font-size:20px;margin-bottom:10px;">Every factual claim grounded in the actual inputs: images opened, videos watched, PDFs read. Nothing asserted from a filename</li>
+            <li style="font-size:20px;margin-bottom:0;">Reachable with the <strong>universe loadout alone</strong>, and it reconciles the media against at least one other source rather than reporting it</li>
+          </ul>
+        </div>
+        <div class="mini-block">
+          <h3>Three gates on the way out</h3>
+          <ul>
+            <li style="font-size:20px;margin-bottom:10px;"><strong>Prove it.</strong> You cannot move past this step until the scenario has been shown to be achievable, by achieving it</li>
+            <li style="font-size:20px;margin-bottom:10px;"><strong>Download the trajectory and the collected artifacts.</strong> Both renders are what the subjective block gets written from. Skipping it here costs you the next section</li>
+            <li style="font-size:20px;margin-bottom:0;"><strong>Trajectory Validator.</strong> It runs on the way out, the same as the rubric one. If it scores you three or below and you disagree, select <strong>No</strong> and justify it</li>
+          </ul>
+        </div>
+      </div>
+      <div class="mini-block" style="margin-top:18px;">
+        <h3>What the golden is not</h3>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0 30px;font-size:19px;color:#c8d6ec;line-height:1.4;">
+          <div><strong style="color:#5eb3ff;">Not a bigger deliverable.</strong> Sections nobody asked for make it a different task, not a better answer</div>
+          <div><strong style="color:#5eb3ff;">Not a rewritten prompt.</strong> If getting there needed the prompt changed, the prompt is what is wrong</div>
+          <div><strong style="color:#5eb3ff;">Not a lucky run.</strong> Reaching it once by accident proves nothing. You have to be able to steer it there</div>
+        </div>
+      </div>
+      <div class="mini-block" style="margin-top:18px;">
+        <h3>When the golden will not come</h3>
+        <div style="font-size:19px;color:#c8d6ec;line-height:1.45;margin-bottom:11px;">Hinting forever is the wrong response. If the ideal answer stays out of reach, the diagnosis is upstream and one of these is the reason:</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px 30px;font-size:19px;color:#c8d6ec;line-height:1.4;">
+          <div><strong style="color:#5eb3ff;">The universe does not carry it.</strong> The task needs a skill or a table the loadout never had. The idea is what has to change</div>
+          <div><strong style="color:#5eb3ff;">The milestone was written against one run.</strong> It only makes sense to a model that took leg 1&rsquo;s route. Rewrite it at intent level</div>
+          <div><strong style="color:#5eb3ff;">The prompt never named the deliverable.</strong> You are hinting your way around a gap the opening prompt should have closed</div>
+          <div><strong style="color:#5eb3ff;">Nothing in the inputs settles it.</strong> If no source answers the question, no model can, and the rubric grading it would be ungradable too</div>
+        </div>
+      </div>
+      <div class="highlight-box" style="margin-top:18px;">This leg is also what makes the <strong>50% failure gate</strong> coherent rather than contradictory. Model A has to miss at least half its criteria while the same task, the same prompt and the same universe come out right here. If you cannot reach the ideal response yourself, the scenario was never solvable and the thing to fix is the task, not the model.</div>
+    </div>
+  </div>
+  <div class="footer-meta">Section 10 &middot; Model B and Golden</div>
+  <div class="footer-brand">The Golden Bar</div>
+</div>
+<div class="slide full" id="slide-27">
+  <div class="corner-tl"></div>
+  <div class="corner-br"></div>
+  <div class="slide-inner">
+    <div class="content" style="justify-content:flex-start;">
+      <div class="section-num">Section 11</div>
+      <h1>Anatomy of a Criterion</h1>
+      <div class="tagline">Binary statements about whether Model A met a requirement</div>
+      <div class="two-col" style="margin-top:16px;align-items:start;">
+        <div class="mini-block">
+          <h3>Scope</h3>
+          <ul>
+            <li style="font-size:20px;margin-bottom:9px;">Written and rated against <strong>Model A only</strong>, across the <strong>entire conversation</strong>: the opening prompt and every follow up</li>
+            <li style="font-size:20px;margin-bottom:9px;">Emphasise where Model A failed. That is where the grading signal is</li>
+            <li style="font-size:20px;margin-bottom:0;">Never leave a later turn ungraded because the early turns were more interesting</li>
+          </ul>
+        </div>
+        <div class="mini-block">
+          <h3>Polarity</h3>
+          <table class="workflow-table" style="margin-top:0;font-size:19px;">
+            <tr><th style="width:150px;">Weight</th><th>Not Present</th><th>Present</th></tr>
+            <tr><td style="color:#6fe39a;">+1 &nbsp;+3 &nbsp;+5</td><td style="color:#ff8a96;">Failure</td><td style="color:#6fe39a;">Success</td></tr>
+            <tr><td style="color:#ff8a96;">&minus;1 &nbsp;&minus;3 &nbsp;&minus;5</td><td style="color:#6fe39a;">Success</td><td style="color:#ff8a96;">Failure</td></tr>
+          </table>
+          <div style="font-size:19px;color:#8fa3c7;margin-top:11px;">Either failing cell, positive and Not Present or negative and Present, requires a three part justification. No exceptions.</div>
+        </div>
+      </div>
+      <div class="mini-block" style="margin-top:15px;">
+        <h3>Six properties every criterion carries</h3>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px 30px;font-size:19px;color:#c8d6ec;line-height:1.4;">
+          <div><strong style="color:#5eb3ff;">Outcome based.</strong> Grades deliverables and state changes, not whether a tool was reached for</div>
+          <div><strong style="color:#5eb3ff;">Positively phrased.</strong> Says what the model should have done; the signed weight carries polarity</div>
+          <div><strong style="color:#5eb3ff;">Self contained.</strong> Ratable from the response or trajectory alone, without reopening the inputs</div>
+          <div><strong style="color:#5eb3ff;">Prompt aligned.</strong> Every literal filename, heading or value appears in the prompt or a file it points at</div>
+          <div><strong style="color:#5eb3ff;">Atomic.</strong> One evaluable outcome per criterion</div>
+          <div><strong style="color:#5eb3ff;">Intent focused.</strong> Grades whether the request was satisfied, not wording the prompt never required</div>
+        </div>
+      </div>
+      <div class="two-col" style="margin-top:15px;align-items:start;">
+        <div class="mini-block">
+          <h3>Self contained</h3>
+          <pre class="code" style="font-size:17px;margin-top:0;padding:14px 18px;"><span class="r">&#10007;</span> Response identifies the first president
+  of the USA.
+<span class="g">&#10003;</span> Response identifies the first president
+  of the USA as George Washington.
+
+<span class="r">&#10007;</span> xyz.csv includes the first row from abc.png.
+<span class="g">&#10003;</span> xyz.csv includes the first non-header row
+  "John Smith", "123-456-7890", "$300".</pre>
+        </div>
+        <div class="mini-block">
+          <h3>Atomic: read the finding, not the punctuation</h3>
+          <pre class="code" style="font-size:17px;margin-top:0;padding:14px 18px;"><span class="g">&#10003;</span> The model identifies that UT_part2.py
+  returns failing results and concludes bug
+  NEXB-2345 is not resolved.  <span class="c"># one finding</span>
+<span class="r">&#10007;</span> ...identifies NEXB-2345 as not resolved and
+  NEXB-2401 as resolved.  <span class="c"># can diverge</span>
+<span class="r">&#10007;</span> ...identifies NEXB-2345 as not resolved and
+  records it in the report.  <span class="c"># two targets</span></pre>
+          <div style="font-size:19px;color:#8fa3c7;margin-top:9px;">An &ldquo;and&rdquo;, a semicolon or several clauses are not defects while every clause serves the same finding.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer-meta">Section 11 &middot; Objective Rubrics</div>
+  <div class="footer-brand">Anatomy</div>
+</div>
+<div class="slide full" id="slide-28">
+  <div class="corner-tl"></div>
+  <div class="corner-br"></div>
+  <div class="slide-inner">
+    <div class="content" style="justify-content:flex-start;">
+      <div class="section-num">Section 11</div>
+      <h1>Category, Target, Weight</h1>
+      <div class="tagline">Every criterion carries all three. Getting them wrong is a rejection on its own.</div>
+      <div class="two-col" style="margin-top:16px;align-items:start;">
+        <div class="mini-block">
+          <h3>Category</h3>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px 24px;font-size:20px;color:#c8d6ec;line-height:1.35;">
+            <div>Task Completion</div>
+            <div>Tool Use</div>
+            <div>Instruction Following</div>
+            <div>Agent Behavior</div>
+            <div>Factuality and Hallucination</div>
+            <div>Safety and Boundaries, where it applies</div>
+          </div>
+          <h3 style="margin-top:16px;">Evaluation target</h3>
+          <div style="font-size:19px;color:#c8d6ec;line-height:1.4;">
+            <div style="margin-bottom:6px;"><strong style="color:#5eb3ff;">Final Answer Artifact.</strong> Files created or modified in the workspace</div>
+            <div style="margin-bottom:6px;"><strong style="color:#5eb3ff;">State Change.</strong> External mutations: an email sent, an event created</div>
+            <div style="margin-bottom:6px;"><strong style="color:#5eb3ff;">User-Facing Message.</strong> What the assistant tells the user in its final response</div>
+            <div><strong style="color:#5eb3ff;">Trajectory.</strong> A required reasoning path or scope discipline, not a tool call count</div>
+          </div>
+        </div>
+        <div class="mini-block">
+          <h3>Weight is difficulty, never importance</h3>
+          <table class="workflow-table" style="margin-top:0;font-size:19px;">
+            <tr><th style="width:58px;">&nbsp;</th><th>How hard to satisfy</th><th style="width:66px;">&nbsp;</th><th>How tempting to get wrong</th></tr>
+            <tr><td style="color:#6fe39a;">+5</td><td><strong>Three or more</strong> axes</td><td style="color:#ff8a96;">&minus;5</td><td>A failure the model is strongly drawn into</td></tr>
+            <tr><td style="color:#6fe39a;">+3</td><td><strong>Exactly two</strong> axes</td><td style="color:#ff8a96;">&minus;3</td><td>A plausible wrong default</td></tr>
+            <tr><td style="color:#6fe39a;">+1</td><td>Zero or one: mechanical</td><td style="color:#ff8a96;">&minus;1</td><td>A rare unprompted failure</td></tr>
+          </table>
+          <h3 style="margin-top:16px;">The four difficulty axes</h3>
+          <div style="font-size:19px;color:#c8d6ec;line-height:1.4;">
+            <div style="margin-bottom:5px;"><strong style="color:#5eb3ff;">Tool / source coordination.</strong> Three or more sources reconciled, or tools chained</div>
+            <div style="margin-bottom:5px;"><strong style="color:#5eb3ff;">Reasoning depth.</strong> Multi step inference, conditionals, calculation</div>
+            <div style="margin-bottom:5px;"><strong style="color:#5eb3ff;">Modality.</strong> Cross modal work across image, data and text</div>
+            <div><strong style="color:#5eb3ff;">Discovery effort.</strong> Hidden fields, cross document tracing</div>
+          </div>
+        </div>
+      </div>
+      <div class="highlight-box" style="margin-top:16px;">
+        <div style="font-size:20px;margin-bottom:9px;">&ldquo;The model identifies <code>Helpshift</code> as cancelled by reconciling the <code>#winddown</code> message at a given timestamp with a screenshot confirming a final amount due of <code>$1,500.00</code>.&rdquo;</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:3px 30px;font-size:19px;color:#c8d6ec;line-height:1.35;">
+          <div><span style="color:#6fe39a;">1</span>&nbsp; <strong>Coordination.</strong> The channel message plus the attached screenshot</div>
+          <div><span style="color:#6fe39a;">3</span>&nbsp; <strong>Discovery.</strong> Nobody linked the two; the model has to find the pairing</div>
+          <div><span style="color:#6fe39a;">2</span>&nbsp; <strong>Modality.</strong> The amount exists only inside the image</div>
+          <div><span style="color:#6fe39a;">4</span>&nbsp; <strong>Reasoning.</strong> An intention to cancel is not a cancellation until evidence confirms it</div>
+        </div>
+        <div style="font-size:22px;color:#fff;margin-top:10px;"><strong>Agent Behavior &middot; Trajectory &middot; +5.</strong> <span style="font-size:19px;color:#8fa3c7;font-weight:400;">Contrast: &ldquo;<code>audit_report.md</code> exists&rdquo; is mechanical &rarr; <strong style="color:#cfe0f5;">+1</strong>. Pulling one value out of an image and reporting it is a single cross modal step &rarr; <strong style="color:#cfe0f5;">+3</strong>.</span></div>
+      </div>
+      <div class="warn-box" style="margin-top:14px;"><strong>Not Tool Use</strong>, which is reserved for cases where the user&rsquo;s intent genuinely requires a specific tool, and <strong>not Final Answer Artifact</strong> either, since nothing here is being checked inside a file. Only <code>&minus;5 &minus;3 &minus;1 +1 +3 +5</code> are valid weights. There is no <code>+2</code> and no <code>+4</code>.</div>
+    </div>
+  </div>
+  <div class="footer-meta">Section 11 &middot; Objective Rubrics</div>
+  <div class="footer-brand">Category &amp; Weight</div>
+</div>
+<div class="slide full" id="slide-29">
+  <div class="corner-tl"></div>
+  <div class="corner-br"></div>
+  <div class="slide-inner">
+    <div class="content" style="justify-content:flex-start;">
+      <div class="section-num">Section 11</div>
+      <h1>Building the Block</h1>
+      <div class="tagline">Composition, the recurring rejections, and the justification every failure needs</div>
+      <div class="two-col" style="margin-top:18px;align-items:start;">
+        <div class="mini-block">
+          <h3>Composition</h3>
+          <ul>
+            <li style="font-size:20px;margin-bottom:11px;">Cover every requirement <strong>positively first</strong>, then add negatives: around <strong>25%</strong> of the block, hard ceiling <strong>30%</strong></li>
+            <li style="font-size:20px;margin-bottom:11px;">A negative asserts the model was tempted into something specific. If you cannot point at the temptation in the run or in the design, it does not belong in the block</li>
+            <li style="font-size:20px;margin-bottom:11px;">One repeated mistake is not 20 rubrics. Write a <strong>volume criterion</strong>, &ldquo;the agent sends all 16 required emails&rdquo;, plus <strong>up to about five</strong> deterministic spot checks</li>
+            <li style="font-size:20px;margin-bottom:0;">Stacked OR logic only where the outcomes are genuinely equivalent, never to patch thin coverage</li>
+          </ul>
+        </div>
+        <div class="mini-block">
+          <h3><span style="color:#ff8a96;">&#10007;</span>&nbsp; Rejected</h3>
+          <div style="font-size:19px;color:#f0c4c8;line-height:1.45;margin-bottom:12px;">&ldquo;<code>MEMORY.md</code> lists <code>coderabbit</code> under <code>UNCONFIRMED</code> <strong>and does not list</strong> <code>Datadog</code> anywhere in the file.&rdquo;<br><span style="color:#8fa3c7;">Two assertions that pass or fail independently. One rating can no longer express the result.</span></div>
+          <div style="font-size:19px;color:#f0c4c8;line-height:1.45;margin-bottom:12px;">&ldquo;The model <strong>does not fail to</strong> consult the <code>#winddown</code> channel before classifying any vendor.&rdquo;<br><span style="color:#8fa3c7;">Double negative. State what the model should have done and let the weight carry the polarity.</span></div>
+          <div style="font-size:19px;color:#f0c4c8;line-height:1.45;">&ldquo;The final response is written in a <strong>warm, professional register</strong>.&rdquo;<br><span style="color:#8fa3c7;">A bare adjective with no observable anchor. Register belongs in the subjective block, tied to something a reviewer can point at.</span></div>
+        </div>
+      </div>
+      <div class="mini-block" style="margin-top:18px;">
+        <h3>The three parts of a failure justification</h3>
+        <div style="font-size:20px;color:#c8d6ec;line-height:1.45;margin-bottom:13px;">Every <strong>failing</strong> rubric on Model A carries one: a <strong>positive</strong> criterion rated <strong>Not Present</strong>, or a <strong>negative</strong> criterion rated <strong>Present</strong>. No exceptions.</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0 26px;font-size:19px;color:#c8d6ec;line-height:1.4;">
+          <div><strong style="color:#5eb3ff;">1 &middot; Why the rubric is correct.</strong> Quote the prompt or the input policy that grounds it</div>
+          <div><strong style="color:#5eb3ff;">2 &middot; Where Model A failed.</strong> Cite the turn, tool use or output holding the mistake</div>
+          <div><strong style="color:#5eb3ff;">3 &middot; Why it matters.</strong> The impact on a correct and complete answer</div>
+        </div>
+        <div style="font-size:19px;color:#8fa3c7;margin-top:11px;">Definitive, never speculative, and referenced to the prompt or the trajectory directly. Never cite other models or pass rates. If you cannot write all three, delete the rubric. The golden needs no justifications.</div>
+      </div>
+      <div class="warn-box" style="margin-top:18px;">Other recurring defects: prompt and rubric grading different deliverables &middot; over specifying wording the prompt never required &middot; hard coded oracle values &middot; contradictory polarity pairs &middot; a visual check spanning several files &middot; an input perception criterion nobody can evaluate.</div>
+    </div>
+  </div>
+  <div class="footer-meta">Section 11 &middot; Objective Rubrics</div>
+  <div class="footer-brand">Building the Block</div>
+</div>
+<div class="slide full" id="slide-30">
+  <div class="corner-tl"></div>
+  <div class="corner-br"></div>
+  <div class="slide-inner">
+    <div class="content" style="justify-content:flex-start;">
+      <div class="section-num">Section 12</div>
+      <h1>Subjective Rubrics</h1>
+      <div class="tagline">Presentation only, and the block where most of the failures have been landing</div>
+      <div class="highlight-box" style="margin-top:14px;">The dividing line is simple. Anything you can settle <strong>against a source of truth</strong> stays in the objective block. Anything you judge <strong>by looking at the render</strong> lives here.</div>
+      <div class="mini-block" style="margin-top:16px;">
+        <h3>The presentation scale</h3>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px 34px;font-size:19px;color:#c8d6ec;line-height:1.4;">
+          <div><strong style="color:#6fe39a;">+5</strong>&nbsp; <strong>Critically important.</strong> Unusable for its audience without it</div>
+          <div><strong style="color:#ff8a96;">&minus;1</strong>&nbsp; <strong>Slightly detrimental.</strong> A flaw that compromises nothing</div>
+          <div><strong style="color:#6fe39a;">+3</strong>&nbsp; <strong>Important.</strong> Core presentation competence</div>
+          <div><strong style="color:#ff8a96;">&minus;3</strong>&nbsp; <strong>Detrimental.</strong> Materially degrades readability</div>
+          <div><strong style="color:#6fe39a;">+1</strong>&nbsp; <strong>Slightly important.</strong> Polish</div>
+          <div><strong style="color:#ff8a96;">&minus;5</strong>&nbsp; <strong>Critically detrimental.</strong> Breaks it as a presented object</div>
+        </div>
+        <div style="font-size:19px;color:#8fa3c7;margin-top:11px;">These are <strong style="color:#cfe0f5;">not</strong> the objective difficulty weights. Here the number says how much the property matters to the reader, not how hard it was to achieve. Negatives are expected: around <strong style="color:#cfe0f5;">25%</strong> of the set, ceiling <strong style="color:#cfe0f5;">30%</strong>.</div>
+      </div>
+      <div class="mini-block" style="margin-top:16px;">
+        <h3>Which block does it belong to?</h3>
+        <table class="workflow-table" style="margin-top:0;font-size:18px;">
+          <tr><th style="width:50%;">Criterion</th><th style="width:28%;">Why</th><th>Block</th></tr>
+          <tr><td style="color:#c8d6ec;">The report carries a section titled <code>Summary</code></td><td>The prompt asked for it</td><td style="color:#5eb3ff;"><strong>Objective</strong></td></tr>
+          <tr><td style="color:#c8d6ec;">Heading levels form a real hierarchy across the document</td><td>Nobody asked. You see it in the render</td><td style="color:#6fe39a;"><strong>Subjective</strong></td></tr>
+          <tr><td style="color:#c8d6ec;">The total owed reads <code>4,032.00</code></td><td>Settled against a source of truth</td><td style="color:#5eb3ff;"><strong>Objective</strong></td></tr>
+          <tr><td style="color:#c8d6ec;">The total is set larger than the entries beneath it</td><td>Judged by looking at it</td><td style="color:#6fe39a;"><strong>Subjective</strong></td></tr>
+        </table>
+      </div>
+      <div class="warn-box" style="margin-top:16px;">Every criterion names <strong>one observable property</strong> of the render, so two evaluators land on the same answer. Bare adjectives are the most common rejection here. The block stays at or below <strong>30% of total task weight</strong>, never repeats a value check the objective block already covers, and only exists once the golden does.</div>
+    </div>
+  </div>
+  <div class="footer-meta">Section 12 &middot; Subjective Rubrics</div>
+  <div class="footer-brand">Scope &amp; Weights</div>
+</div>
+<div class="slide full" id="slide-31">
+  <div class="corner-tl"></div>
+  <div class="corner-br"></div>
+  <div class="slide-inner">
+    <div class="content" style="justify-content:flex-start;">
+      <div class="section-num">Section 12</div>
+      <h1>Rating and Justifying</h1>
+      <div class="tagline">The only block rated against both runs, and the last thing you do on the task</div>
+      <table class="workflow-table" style="margin-top:14px;font-size:19px;">
+        <tr><th style="width:52px;">&nbsp;</th><th style="width:29%;">Step</th><th>What it involves</th></tr>
+        <tr><td style="color:#5eb3ff;">1</td><td><strong>Rate against both runs</strong></td><td>Present or Not Present on <strong>Model A</strong> and on <strong>Model B</strong>, criterion by criterion. The evaluation viewer lays the whole set out, both responses against every criterion. Keep both renders open, the same two you compared when you wrote them</td></tr>
+        <tr><td style="color:#5eb3ff;">2</td><td><strong>Check the pre filled side</strong></td><td>One side comes back pre filled from the autorater, and the auto generated criteria appear here too. Both are a starting point at most. Check that side rather than trust it, and do the other yourself</td></tr>
+        <tr><td style="color:#5eb3ff;">3</td><td><strong>Pairwise preference</strong></td><td>A fixed set of comparisons with both artifacts open: which is more usable by the requester, which handles visual presentation better, which better matches the brief as it stood at the end, and overall preference</td></tr>
+        <tr><td style="color:#5eb3ff;">4</td><td><strong>Justify, Model A only</strong></td><td>Every <strong>positive</strong> that came out <strong>Not Present</strong> and every <strong>negative</strong> that came out <strong>Present</strong>. Same three parts as the objective block, pointed at the render rather than the trajectory</td></tr>
+      </table>
+      <div class="mini-block" style="margin-top:14px;">
+        <h3>A failing justification, worked</h3>
+        <div style="font-size:19px;color:#c8d6ec;line-height:1.45;margin-bottom:10px;">&ldquo;Each of the three groups is presented as a <strong>visually distinct section</strong>.&rdquo; &nbsp;<span style="color:#ff8a96;">Not Present on Model A.</span></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0 26px;font-size:19px;color:#c8d6ec;line-height:1.4;">
+          <div><strong style="color:#5eb3ff;">1 &middot; Why it is correct.</strong> The brief asked for the vendors grouped by status, and grouping that is not visible on the page is not grouping</div>
+          <div><strong style="color:#5eb3ff;">2 &middot; Where it failed.</strong> The render runs all sixteen entries as one continuous list with no separation between statuses</div>
+          <div><strong style="color:#5eb3ff;">3 &middot; Why it matters.</strong> The reader cannot tell at a glance which vendors are cancelled, the one question the artifact exists to answer</div>
+        </div>
+      </div>
+      <div class="warn-box" style="margin-top:14px;">The recurring rejections here: a bare adjective with no anchor &middot; a deterministic value check sitting in this block &middot; criteria written before the golden existed &middot; a block rated against one artifact only &middot; a stylistic requirement the prompt actually stated, which belongs in the objective block.</div>
+      <div class="highlight-box" style="margin-top:14px;">Presentation judgement is the part of this task that is genuinely yours. The autorater cannot do it for you, and it is where most of the failures land.</div>
+    </div>
+  </div>
+  <div class="footer-meta">Section 12 &middot; Subjective Rubrics</div>
+  <div class="footer-brand">Rating</div>
+</div>
+<div class="slide full" id="slide-32">
+  <div class="corner-tl"></div>
+  <div class="corner-br"></div>
+  <div class="slide-inner">
+    <div class="content" style="justify-content:flex-start;">
+      <div class="section-num">Section 13</div>
+      <h1>Before You Ship &middot; 1</h1>
+      <div class="tagline">Universe, idea, Story Draft and prompt</div>
+      <div class="two-col" style="margin-top:24px;align-items:start;">
+        <div class="mini-block">
+          <h3>Universe and idea</h3>
+          <div style="font-size:19px;color:#c8d6ec;line-height:1.75;">
+            <div>&#9744;&nbsp; Environment ID and Service Universe Artifact ID loaded</div>
+            <div>&#9744;&nbsp; Every required server and data source exists</div>
+            <div>&#9744;&nbsp; Scenario fits persona, category, subcategory and build time date</div>
+            <div>&#9744;&nbsp; Real multimodal inspection required, across 2 to 5 turns</div>
+            <div>&#9744;&nbsp; At least one core requirement depends on examining the media, with the intended level supported by artifact count</div>
+            <div>&#9744;&nbsp; Acquire &rarr; Process &rarr; Decide &rarr; Output, with real handoffs</div>
+            <div>&#9744;&nbsp; Inputs realistic and messy without leaking answers</div>
+          </div>
+        </div>
+        <div class="mini-block">
+          <h3>Story Draft and prompt</h3>
+          <div style="font-size:19px;color:#c8d6ec;line-height:1.75;">
+            <div>&#9744;&nbsp; Agent Objective states persona, stakes, problem and success, with no tool by tool steps</div>
+            <div>&#9744;&nbsp; Desired Outcome defines inspectable artifacts and decision logic without revealing answers</div>
+            <div>&#9744;&nbsp; Upload follows artifact, format, copyright, privacy and downsampling rules</div>
+            <div>&#9744;&nbsp; Opening prompt sounds natural, requires the media, and names every graded output file</div>
+            <div>&#9744;&nbsp; Policies stay in the input files; every enforced requirement appears in the prompt</div>
+            <div>&#9744;&nbsp; Follow up intents planned but wording left reactive</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer-meta">Section 13 &middot; Quality Control</div>
+  <div class="footer-brand">Checklist 1</div>
+</div>
+<div class="slide full" id="slide-33">
+  <div class="corner-tl"></div>
+  <div class="corner-br"></div>
+  <div class="slide-inner">
+    <div class="content" style="justify-content:flex-start;">
+      <div class="section-num">Section 13</div>
+      <h1>Before You Ship &middot; 2</h1>
+      <div class="tagline">Legs, milestones, golden and rubrics</div>
+      <div class="two-col" style="margin-top:24px;align-items:start;">
+        <div class="mini-block">
+          <h3>Model A, milestones, golden</h3>
+          <div style="font-size:19px;color:#c8d6ec;line-height:1.75;">
+            <div>&#9744;&nbsp; Every turn's artifacts downloaded before the next follow up</div>
+            <div>&#9744;&nbsp; Model A errors are genuine decisions, not infrastructure or environment defects</div>
+            <div>&#9744;&nbsp; Model A fails at least <strong style="color:#fff;">50%</strong> of total rubric weight, legitimately</div>
+            <div>&#9744;&nbsp; Milestones capture intent one requirement at a time, grouped by turn</div>
+            <div>&#9744;&nbsp; No milestone names a value, a finding or a file</div>
+            <div>&#9744;&nbsp; Model B began with the exact same opening prompt</div>
+            <div>&#9744;&nbsp; Hints stayed intent level and revealed no ground truth</div>
+            <div>&#9744;&nbsp; Golden trajectory and artifacts downloaded, both renders on hand</div>
+          </div>
+        </div>
+        <div class="mini-block">
+          <h3>Rubrics</h3>
+          <div style="font-size:19px;color:#c8d6ec;line-height:1.75;">
+            <div>&#9744;&nbsp; Criteria cover the <strong style="color:#fff;">entire</strong> Model A conversation</div>
+            <div>&#9744;&nbsp; Atomic, self contained, outcome based, prompt aligned, positively phrased</div>
+            <div>&#9744;&nbsp; Every literal string traces to the prompt or a file it points at</div>
+            <div>&#9744;&nbsp; Weights reflect difficulty axes, only &minus;5 &minus;3 &minus;1 +1 +3 +5</div>
+            <div>&#9744;&nbsp; Negative criteria within <strong style="color:#fff;">30%</strong></div>
+            <div>&#9744;&nbsp; Subjective weight within <strong style="color:#fff;">30%</strong> of the total</div>
+            <div>&#9744;&nbsp; Subjective criteria address only observable presentation, rated against both artifacts</div>
+            <div>&#9744;&nbsp; Every Model A failure carries a three part justification</div>
+            <div>&#9744;&nbsp; No contradictions between criteria</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer-meta">Section 13 &middot; Quality Control</div>
+  <div class="footer-brand">Checklist 2</div>
+</div>
+<div class="slide cover" id="slide-34">
+  <div class="corner-tl"></div>
+  <div class="corner-br"></div>
+  <div class="slide-inner">
+    <div class="content">
+      <div class="eyebrow">That is the intro</div>
+      <h1>You Are Ready<br>To Build One</h1>
+      <div class="tagline" style="margin-top:24px;font-size:26px;">Universe first &middot; a scenario with real stakes &middot; media that decides something &middot; two legs &middot; rubrics that grade what was asked</div>
+      <div class="highlight-box" style="margin-top:44px;max-width:1150px;margin-left:auto;margin-right:auto;text-align:left;">
+        Before you submit, ask the question every reviewer will ask first: <strong>could a model have reached this answer without opening the media?</strong> If yes, the task is not finished yet.
+      </div>
+      <div style="max-width:1150px;margin:30px auto 0;text-align:left;font-size:23px;color:#b8cce8;line-height:1.55;">
+        Everything covered here is the foundation for the <strong style="color:#fff;">screening</strong>, and you will be expected to apply it there. Being comfortable with this guidance is what passing it comes down to. Take your time, keep the guidelines and these materials open beside you, and work the flow with intention rather than at speed.
+      </div>
+      <div style="margin-top:28px;font-size:27px;color:#fff;font-weight:700;letter-spacing:0.3px;">Good luck on the screening. Hopefully I&rsquo;ll see you on the other side &nbsp;&#129408;</div>
+    </div>
+  </div>
+  <div class="footer-meta">Intro Course</div>
+  <div class="footer-brand">OpenClaw MM &middot; Multi Turn</div>
+</div></body></html>
