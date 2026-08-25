@@ -1077,218 +1077,6 @@ Screenshot 23-05-2026 24234324.jpg&rdquo;  <span class="r"># it is not in it</sp
   <div class="slide-inner">
     <div class="content" style="justify-content:flex-start;">
       <div class="section-num">Section 9</div>
-      <h1>Milestones</h1>
-      <div class="tagline">The turn by turn intent spec you drive the second leg from</div>
-      <div style="font-size:20px;color:#b8cce8;line-height:1.45;margin-top:12px;">In the finished pipeline a <strong style="color:#fff;">user simulator</strong> plays every turn after the first, reproducing your intent across runs that diverge. Until that is wired up, <strong style="color:#fff;">you are the simulator</strong>, and these milestones are the only script you have.</div>
-      <table class="workflow-table" style="margin-top:14px;font-size:19px;">
-        <tr><th style="width:250px;">Field</th><th>What goes in it</th></tr>
-        <tr><td style="color:#5eb3ff;">Turn</td><td>Which turn of the Model A conversation the requirement came from</td></tr>
-        <tr><td style="color:#5eb3ff;">Modifier</td><td>What this turn does to work that already exists. Covered on the next slide</td></tr>
-        <tr><td style="color:#5eb3ff;">Intent</td><td>What the user wants at this point, stripped of anything specific to the response you happened to receive</td></tr>
-        <tr><td style="color:#5eb3ff;">Follow up prompt</td><td>How to express that intent to a run that produced something different</td></tr>
-        <tr><td style="color:#5eb3ff;">Continuation criteria</td><td>What must be true in the agent&rsquo;s output before you move on to the next milestone</td></tr>
-        <tr><td style="color:#5eb3ff;">Assets delivered here</td><td>Any files handed over at this turn, if the task defers assets</td></tr>
-      </table>
-      <div class="two-col" style="margin-top:14px;align-items:start;">
-        <div class="mini-block">
-          <h3>One per requirement, grouped by turn</h3>
-          <ul>
-            <li style="font-size:20px;margin-bottom:9px;">A follow up carrying three requirements produces <strong>three milestones</strong>, not one</li>
-            <li style="font-size:20px;margin-bottom:9px;">Every milestone is attributable to an identifiable turn</li>
-            <li style="font-size:20px;margin-bottom:0;"><strong>No filenames and no values.</strong> &ldquo;The progress is kept in the created HTML file&rdquo; is the register expected</li>
-          </ul>
-        </div>
-        <div class="mini-block">
-          <h3>Intent, never the answer</h3>
-          <pre class="code" style="font-size:18px;margin-top:0;padding:13px 18px;"><span class="g">INTENT</span>  The information from the test image is added
-        to the video.
-<span class="r">ANSWER</span>  Add the $126 price to the video.
-<span class="g">INTENT</span>  The new photographs are taken into the existing
-        room by room assessment.
-<span class="r">ANSWER</span>  The bathroom moves to finished.</pre>
-        </div>
-      </div>
-      <div class="warn-box" style="margin-top:14px;"><strong>The test:</strong> if a milestone only makes sense against the wording the first model produced, rewrite it so it still lands on a run that took another path.</div>
-    </div>
-  </div>
-  <div class="footer-meta">Section 9 &middot; Milestones</div>
-  <div class="footer-brand">Milestones</div>
-</div>
-<div class="slide full" id="slide-23">
-  <div class="corner-tl"></div>
-  <div class="corner-br"></div>
-  <div class="slide-inner">
-    <div class="content" style="justify-content:flex-start;">
-      <div class="section-num">Section 9</div>
-      <h1>Milestone Modifiers</h1>
-      <div class="tagline">Every milestone carries one. It records what the turn does to work that already exists, which is what makes the turn worth having.</div>
-      <table class="workflow-table" style="margin-top:18px;font-size:19px;">
-        <tr><th style="width:240px;">Modifier</th><th style="width:38%;">When to use it</th><th>What you do as the user</th></tr>
-        <tr><td style="color:#6fe39a;"><code>opening</code></td><td>The first turn, and any later turn that simply adds a new requirement without touching earlier work</td><td>Send the opening prompt verbatim. On a later <code>opening</code> turn, state the new requirement and nothing else</td></tr>
-        <tr><td style="color:#e0a92a;"><code>deferred_asset</code></td><td>Material the opening turn did not put in scope arrives, or is released into scope, at this turn</td><td>Hand it over, or say it is now in scope, and require it to be integrated <strong>against work already done</strong>. Never let the agent start over</td></tr>
-        <tr><td style="color:#8b6fe3;"><code>clarification_gated</code></td><td>The opening prompt is genuinely underspecified on one decision the agent cannot correctly guess</td><td>Hold the answer until the agent <strong>asks</strong>. Do not volunteer it. If it never asks and proceeds anyway, that is a model failure: record it, do not rescue it</td></tr>
-        <tr><td style="color:#5eb3ff;"><code>revision</code></td><td>An artifact has been delivered and the brief now changes</td><td>Change <strong>one thing</strong>, precisely. Correct behaviour is a targeted edit, not a rebuild. Keep the change small enough that regenerating is visibly wasteful</td></tr>
-      </table>
-      <div class="two-col" style="margin-top:18px;align-items:start;">
-        <div class="mini-block">
-          <h3>How to choose</h3>
-          <ul>
-            <li style="font-size:20px;margin-bottom:9px;">Turn 1 is <code>opening</code> unless the task withholds something from scope, in which case it is <code>deferred_asset</code></li>
-            <li style="font-size:20px;margin-bottom:9px;">A turn that adds a genuinely new requirement without touching earlier work stays <code>opening</code>, however late it falls</li>
-            <li style="font-size:20px;margin-bottom:0;">A turn that changes something already delivered is <code>revision</code>, not <code>opening</code></li>
-          </ul>
-        </div>
-        <div class="mini-block">
-          <h3>Driving the leg from them</h3>
-          <ul>
-            <li style="font-size:20px;margin-bottom:9px;">Work the milestones <strong>in order</strong>. Do not skip ahead because the agent got somewhere early. Check the continuation criteria first</li>
-            <li style="font-size:20px;margin-bottom:9px;">Express the same intent <strong>the same way every time</strong>. Variation between runs must come from the model, not from you</li>
-            <li style="font-size:20px;margin-bottom:0;">Steer toward the milestone. Never hand over its answer</li>
-          </ul>
-        </div>
-      </div>
-      <div class="highlight-box" style="margin-top:16px;">The same three appear again as <strong>task level modifiers</strong>, with a target mix across the whole bank: deferred assets on <strong>40%</strong> of tasks, clarification gated on <strong>30%</strong>, revision on <strong>30%</strong>. A task may carry several. Any modifier assigned to your task has to genuinely show up in the conversation, not just in the form.</div>
-    </div>
-  </div>
-  <div class="footer-meta">Section 9 &middot; Milestones</div>
-  <div class="footer-brand">Modifiers</div>
-</div>
-<div class="slide full" id="slide-24">
-  <div class="corner-tl"></div>
-  <div class="corner-br"></div>
-  <div class="slide-inner">
-    <div class="content" style="justify-content:flex-start;">
-      <div class="section-num">Section 9</div>
-      <h1>Milestones &middot; Worked</h1>
-      <div class="tagline">A renovation audit: the scope, the contractor's tracker, a walk through video</div>
-      <div class="two-col" style="margin-top:20px;align-items:start;">
-        <div class="mini-block">
-          <h3><span style="color:#6fe39a;">&#10003;</span>&nbsp; Respects the divisions the turn has</h3>
-          <div style="font-size:19px;color:#c8d6ec;line-height:1.5;margin-bottom:10px;">Turn 1 makes four separate asks, so they are spread across separate checks:</div>
-          <ul>
-            <li>Each room's standing against what was agreed, on the range the user asked for</li>
-            <li>Which agreed items inside each room are finished and which are not</li>
-            <li>What the contractor reports set against what is actually there</li>
-            <li>Work appearing that the signed scope does not authorise</li>
-          </ul>
-        </div>
-        <div class="mini-block">
-          <h3><span style="color:#ff8a96;">&#10007;</span>&nbsp; Two ways to lose the part</h3>
-          <div style="font-size:19px;color:#f0c4c8;line-height:1.5;margin-bottom:10px;"><strong>Everything folded into one milestone.</strong> Four asks that do not collapse into each other, stated inside a single check, is a paraphrase of the prompt rather than an intent spec.</div>
-          <div style="font-size:19px;color:#f0c4c8;line-height:1.5;"><strong>The wrong standard.</strong> &ldquo;Each room is rated after comparing what the tracker says against what the agreement says&rdquo; rates progress against the <em>contractor's claim</em>, not against the scope, and it never compares the claim to what the video shows.</div>
-        </div>
-      </div>
-      <div class="highlight-box" style="margin-top:20px;">Where the divisions are genuinely arguable, either reading is fine. Whether a later turn's update and its grounding are one requirement or two is a judgement call. The line to hold is between <strong>stated</strong> and <strong>implied.</strong> A requirement spelled out earns its place wherever it sits; one the reviewer has to infer does not.</div>
-      <div class="warn-box" style="margin-top:16px;">A constraint the <em>user</em> states, such as the rating range, is not a leak. Requiring each room to be placed on it is intent. What leaks is the position a room ends up at.</div>
-    </div>
-  </div>
-  <div class="footer-meta">Section 9 &middot; Milestones</div>
-  <div class="footer-brand">Milestones Worked</div>
-</div>
-<div class="slide full" id="slide-25">
-  <div class="corner-tl"></div>
-  <div class="corner-br"></div>
-  <div class="slide-inner">
-    <div class="content" style="justify-content:flex-start;">
-      <div class="section-num">Section 10</div>
-      <h1>Leg 2 &middot; The Golden Run</h1>
-      <div class="tagline">Same prompt, same universe, a different model, and no cap on turns</div>
-      <div style="font-size:20px;color:#b8cce8;line-height:1.45;margin-top:14px;">The golden is the <strong style="color:#fff;">ideal response</strong>: what the Model A conversation should have arrived at. You are the user simulator again, and the whole job of this leg is to drive a model there.</div>
-      <div class="two-col" style="margin-top:16px;align-items:start;">
-        <div class="mini-block">
-          <h3>What changes from leg 1</h3>
-          <ul>
-            <li style="font-size:20px;margin-bottom:10px;">The <strong>same eight step workflow</strong>, the same opening prompt sent verbatim, the same universe</li>
-            <li style="font-size:20px;margin-bottom:10px;">A <strong>different model</strong> runs it. If leg 1 went against GPT, this one goes against Opus</li>
-            <li style="font-size:20px;margin-bottom:10px;"><strong>No turn limit.</strong> The two to five turn tier applied to the authoring leg only</li>
-            <li style="font-size:20px;margin-bottom:0;">Attention nudges and a cleanup turn are fine here, as long as they stay at intent level</li>
-          </ul>
-        </div>
-        <div class="mini-block">
-          <h3>The steering loop</h3>
-          <ul>
-            <li style="font-size:20px;margin-bottom:10px;">It stops at <strong>prompt agent</strong> with your opening prompt already loaded. Wait for the first response</li>
-            <li style="font-size:20px;margin-bottom:10px;">Read that response <strong>against your current milestone</strong>, not against the run you saw in leg 1</li>
-            <li style="font-size:20px;margin-bottom:10px;">Milestone met, move to the next one. Not met, hint again and read again</li>
-            <li style="font-size:20px;margin-bottom:0;">When the last milestone is satisfied, <strong>complete the conversation</strong> and the remaining steps finish on their own</li>
-          </ul>
-        </div>
-      </div>
-      <div class="mini-block" style="margin-top:16px;">
-        <h3>What a hint looks like</h3>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0 34px;align-items:start;">
-          <pre class="code" style="font-size:18px;margin-top:0;padding:14px 18px;"><span class="g">HINT</span>  I still cannot see anything from the test
-      image reflected in the video.
-<span class="r">LEAK</span>  Add the $126 price to the video.</pre>
-          <pre class="code" style="font-size:18px;margin-top:0;padding:14px 18px;"><span class="g">HINT</span>  The bathroom photos I sent should be part
-      of the room by room view by now.
-<span class="r">LEAK</span>  Mark the bathroom as finished.</pre>
-        </div>
-        <div style="font-size:19px;color:#8fa3c7;margin-top:11px;">A hint says <strong style="color:#cfe0f5;">what is still missing</strong> from the user&rsquo;s point of view. It never says what to write. If the model can copy your hint into the artifact, you handed over the answer.</div>
-      </div>
-      <div class="warn-box" style="margin-top:16px;">However many hints it takes, every one of them stays at intent level. <strong>&ldquo;Add $126&rdquo; ends the value of the leg.</strong> Steer toward the milestone, never hand over its answer, and keep the intent identical to the one you used in leg 1. Variation between the two runs has to come from the model.</div>
-    </div>
-  </div>
-  <div class="footer-meta">Section 10 &middot; Model B and Golden</div>
-  <div class="footer-brand">The Golden Run</div>
-</div>
-<div class="slide full" id="slide-26">
-  <div class="corner-tl"></div>
-  <div class="corner-br"></div>
-  <div class="slide-inner">
-    <div class="content" style="justify-content:flex-start;">
-      <div class="section-num">Section 10</div>
-      <h1>What Makes It Golden</h1>
-      <div class="tagline">The bar the artifact has to clear, and the three gates on the way out</div>
-      <div class="two-col" style="margin-top:18px;align-items:start;">
-        <div class="mini-block">
-          <h3>The artifact</h3>
-          <ul>
-            <li style="font-size:20px;margin-bottom:10px;">The <strong>same deliverable in its best form</strong>, not a different or a larger deliverable</li>
-            <li style="font-size:20px;margin-bottom:10px;">Satisfies <strong>every objective requirement</strong>, with the filenames the prompt named</li>
-            <li style="font-size:20px;margin-bottom:10px;">Every factual claim grounded in the actual inputs: images opened, videos watched, PDFs read. Nothing asserted from a filename</li>
-            <li style="font-size:20px;margin-bottom:0;">Reachable with the <strong>universe loadout alone</strong>, and it reconciles the media against at least one other source rather than reporting it</li>
-          </ul>
-        </div>
-        <div class="mini-block">
-          <h3>Three gates on the way out</h3>
-          <ul>
-            <li style="font-size:20px;margin-bottom:10px;"><strong>Prove it.</strong> You cannot move past this step until the scenario has been shown to be achievable, by achieving it</li>
-            <li style="font-size:20px;margin-bottom:10px;"><strong>Download the trajectory and the collected artifacts.</strong> Both renders are what the subjective block gets written from. Skipping it here costs you the next section</li>
-            <li style="font-size:20px;margin-bottom:0;"><strong>Trajectory Validator.</strong> It runs on the way out, the same as the rubric one. If it scores you three or below and you disagree, select <strong>No</strong> and justify it</li>
-          </ul>
-        </div>
-      </div>
-      <div class="mini-block" style="margin-top:18px;">
-        <h3>What the golden is not</h3>
-        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0 30px;font-size:19px;color:#c8d6ec;line-height:1.4;">
-          <div><strong style="color:#5eb3ff;">Not a bigger deliverable.</strong> Sections nobody asked for make it a different task, not a better answer</div>
-          <div><strong style="color:#5eb3ff;">Not a rewritten prompt.</strong> If getting there needed the prompt changed, the prompt is what is wrong</div>
-          <div><strong style="color:#5eb3ff;">Not a lucky run.</strong> Reaching it once by accident proves nothing. You have to be able to steer it there</div>
-        </div>
-      </div>
-      <div class="mini-block" style="margin-top:18px;">
-        <h3>When the golden will not come</h3>
-        <div style="font-size:19px;color:#c8d6ec;line-height:1.45;margin-bottom:11px;">Hinting forever is the wrong response. If the ideal answer stays out of reach, the diagnosis is upstream and one of these is the reason:</div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px 30px;font-size:19px;color:#c8d6ec;line-height:1.4;">
-          <div><strong style="color:#5eb3ff;">The universe does not carry it.</strong> The task needs a skill or a table the loadout never had. The idea is what has to change</div>
-          <div><strong style="color:#5eb3ff;">The milestone was written against one run.</strong> It only makes sense to a model that took leg 1&rsquo;s route. Rewrite it at intent level</div>
-          <div><strong style="color:#5eb3ff;">The prompt never named the deliverable.</strong> You are hinting your way around a gap the opening prompt should have closed</div>
-          <div><strong style="color:#5eb3ff;">Nothing in the inputs settles it.</strong> If no source answers the question, no model can, and the rubric grading it would be ungradable too</div>
-        </div>
-      </div>
-      <div class="highlight-box" style="margin-top:18px;">This leg is also what makes the <strong>50% failure gate</strong> coherent rather than contradictory. Model A has to miss at least half its criteria while the same task, the same prompt and the same universe come out right here. If you cannot reach the ideal response yourself, the scenario was never solvable and the thing to fix is the task, not the model.</div>
-    </div>
-  </div>
-  <div class="footer-meta">Section 10 &middot; Model B and Golden</div>
-  <div class="footer-brand">The Golden Bar</div>
-</div>
-<div class="slide full" id="slide-27">
-  <div class="corner-tl"></div>
-  <div class="corner-br"></div>
-  <div class="slide-inner">
-    <div class="content" style="justify-content:flex-start;">
-      <div class="section-num">Section 11</div>
       <h1>Anatomy of a Criterion</h1>
       <div class="tagline">Binary statements about whether Model A met a requirement</div>
       <div class="two-col" style="margin-top:16px;align-items:start;">
@@ -1347,15 +1135,15 @@ Screenshot 23-05-2026 24234324.jpg&rdquo;  <span class="r"># it is not in it</sp
       </div>
     </div>
   </div>
-  <div class="footer-meta">Section 11 &middot; Objective Rubrics</div>
+  <div class="footer-meta">Section 9 &middot; Objective Rubrics</div>
   <div class="footer-brand">Anatomy</div>
 </div>
-<div class="slide full" id="slide-28">
+<div class="slide full" id="slide-23">
   <div class="corner-tl"></div>
   <div class="corner-br"></div>
   <div class="slide-inner">
     <div class="content" style="justify-content:flex-start;">
-      <div class="section-num">Section 11</div>
+      <div class="section-num">Section 9</div>
       <h1>Category, Target, Weight</h1>
       <div class="tagline">Every criterion carries all three. Getting them wrong is a rejection on its own.</div>
       <div class="two-col" style="margin-top:16px;align-items:start;">
@@ -1407,15 +1195,15 @@ Screenshot 23-05-2026 24234324.jpg&rdquo;  <span class="r"># it is not in it</sp
       <div class="warn-box" style="margin-top:14px;"><strong>Not Tool Use</strong>, which is reserved for cases where the user&rsquo;s intent genuinely requires a specific tool, and <strong>not Final Answer Artifact</strong> either, since nothing here is being checked inside a file. Only <code>&minus;5 &minus;3 &minus;1 +1 +3 +5</code> are valid weights. There is no <code>+2</code> and no <code>+4</code>.</div>
     </div>
   </div>
-  <div class="footer-meta">Section 11 &middot; Objective Rubrics</div>
+  <div class="footer-meta">Section 9 &middot; Objective Rubrics</div>
   <div class="footer-brand">Category &amp; Weight</div>
 </div>
-<div class="slide full" id="slide-29">
+<div class="slide full" id="slide-24">
   <div class="corner-tl"></div>
   <div class="corner-br"></div>
   <div class="slide-inner">
     <div class="content" style="justify-content:flex-start;">
-      <div class="section-num">Section 11</div>
+      <div class="section-num">Section 9</div>
       <h1>Building the Block</h1>
       <div class="tagline">Composition, the recurring rejections, and the justification every failure needs</div>
       <div class="two-col" style="margin-top:18px;align-items:start;">
@@ -1448,8 +1236,220 @@ Screenshot 23-05-2026 24234324.jpg&rdquo;  <span class="r"># it is not in it</sp
       <div class="warn-box" style="margin-top:18px;">Other recurring defects: prompt and rubric grading different deliverables &middot; over specifying wording the prompt never required &middot; hard coded oracle values &middot; contradictory polarity pairs &middot; a visual check spanning several files &middot; an input perception criterion nobody can evaluate.</div>
     </div>
   </div>
-  <div class="footer-meta">Section 11 &middot; Objective Rubrics</div>
+  <div class="footer-meta">Section 9 &middot; Objective Rubrics</div>
   <div class="footer-brand">Building the Block</div>
+</div>
+<div class="slide full" id="slide-25">
+  <div class="corner-tl"></div>
+  <div class="corner-br"></div>
+  <div class="slide-inner">
+    <div class="content" style="justify-content:flex-start;">
+      <div class="section-num">Section 10</div>
+      <h1>Milestones</h1>
+      <div class="tagline">The turn by turn intent spec you drive the second leg from</div>
+      <div style="font-size:20px;color:#b8cce8;line-height:1.45;margin-top:12px;">In the finished pipeline a <strong style="color:#fff;">user simulator</strong> plays every turn after the first, reproducing your intent across runs that diverge. Until that is wired up, <strong style="color:#fff;">you are the simulator</strong>, and these milestones are the only script you have.</div>
+      <table class="workflow-table" style="margin-top:14px;font-size:19px;">
+        <tr><th style="width:250px;">Field</th><th>What goes in it</th></tr>
+        <tr><td style="color:#5eb3ff;">Turn</td><td>Which turn of the Model A conversation the requirement came from</td></tr>
+        <tr><td style="color:#5eb3ff;">Modifier</td><td>What this turn does to work that already exists. Covered on the next slide</td></tr>
+        <tr><td style="color:#5eb3ff;">Intent</td><td>What the user wants at this point, stripped of anything specific to the response you happened to receive</td></tr>
+        <tr><td style="color:#5eb3ff;">Follow up prompt</td><td>How to express that intent to a run that produced something different</td></tr>
+        <tr><td style="color:#5eb3ff;">Continuation criteria</td><td>What must be true in the agent&rsquo;s output before you move on to the next milestone</td></tr>
+        <tr><td style="color:#5eb3ff;">Assets delivered here</td><td>Any files handed over at this turn, if the task defers assets</td></tr>
+      </table>
+      <div class="two-col" style="margin-top:14px;align-items:start;">
+        <div class="mini-block">
+          <h3>One per requirement, grouped by turn</h3>
+          <ul>
+            <li style="font-size:20px;margin-bottom:9px;">A follow up carrying three requirements produces <strong>three milestones</strong>, not one</li>
+            <li style="font-size:20px;margin-bottom:9px;">Every milestone is attributable to an identifiable turn</li>
+            <li style="font-size:20px;margin-bottom:0;"><strong>No filenames and no values.</strong> &ldquo;The progress is kept in the created HTML file&rdquo; is the register expected</li>
+          </ul>
+        </div>
+        <div class="mini-block">
+          <h3>Intent, never the answer</h3>
+          <pre class="code" style="font-size:18px;margin-top:0;padding:13px 18px;"><span class="g">INTENT</span>  The information from the test image is added
+        to the video.
+<span class="r">ANSWER</span>  Add the $126 price to the video.
+<span class="g">INTENT</span>  The new photographs are taken into the existing
+        room by room assessment.
+<span class="r">ANSWER</span>  The bathroom moves to finished.</pre>
+        </div>
+      </div>
+      <div class="warn-box" style="margin-top:14px;"><strong>The test:</strong> if a milestone only makes sense against the wording the first model produced, rewrite it so it still lands on a run that took another path.</div>
+    </div>
+  </div>
+  <div class="footer-meta">Section 10 &middot; Milestones</div>
+  <div class="footer-brand">Milestones</div>
+</div>
+<div class="slide full" id="slide-26">
+  <div class="corner-tl"></div>
+  <div class="corner-br"></div>
+  <div class="slide-inner">
+    <div class="content" style="justify-content:flex-start;">
+      <div class="section-num">Section 10</div>
+      <h1>Milestone Modifiers</h1>
+      <div class="tagline">Every milestone carries one. It records what the turn does to work that already exists, which is what makes the turn worth having.</div>
+      <table class="workflow-table" style="margin-top:18px;font-size:19px;">
+        <tr><th style="width:240px;">Modifier</th><th style="width:38%;">When to use it</th><th>What you do as the user</th></tr>
+        <tr><td style="color:#6fe39a;"><code>opening</code></td><td>The first turn, and any later turn that simply adds a new requirement without touching earlier work</td><td>Send the opening prompt verbatim. On a later <code>opening</code> turn, state the new requirement and nothing else</td></tr>
+        <tr><td style="color:#e0a92a;"><code>deferred_asset</code></td><td>Material the opening turn did not put in scope arrives, or is released into scope, at this turn</td><td>Hand it over, or say it is now in scope, and require it to be integrated <strong>against work already done</strong>. Never let the agent start over</td></tr>
+        <tr><td style="color:#8b6fe3;"><code>clarification_gated</code></td><td>The opening prompt is genuinely underspecified on one decision the agent cannot correctly guess</td><td>Hold the answer until the agent <strong>asks</strong>. Do not volunteer it. If it never asks and proceeds anyway, that is a model failure: record it, do not rescue it</td></tr>
+        <tr><td style="color:#5eb3ff;"><code>revision</code></td><td>An artifact has been delivered and the brief now changes</td><td>Change <strong>one thing</strong>, precisely. Correct behaviour is a targeted edit, not a rebuild. Keep the change small enough that regenerating is visibly wasteful</td></tr>
+      </table>
+      <div class="two-col" style="margin-top:18px;align-items:start;">
+        <div class="mini-block">
+          <h3>How to choose</h3>
+          <ul>
+            <li style="font-size:20px;margin-bottom:9px;">Turn 1 is <code>opening</code> unless the task withholds something from scope, in which case it is <code>deferred_asset</code></li>
+            <li style="font-size:20px;margin-bottom:9px;">A turn that adds a genuinely new requirement without touching earlier work stays <code>opening</code>, however late it falls</li>
+            <li style="font-size:20px;margin-bottom:0;">A turn that changes something already delivered is <code>revision</code>, not <code>opening</code></li>
+          </ul>
+        </div>
+        <div class="mini-block">
+          <h3>Driving the leg from them</h3>
+          <ul>
+            <li style="font-size:20px;margin-bottom:9px;">Work the milestones <strong>in order</strong>. Do not skip ahead because the agent got somewhere early. Check the continuation criteria first</li>
+            <li style="font-size:20px;margin-bottom:9px;">Express the same intent <strong>the same way every time</strong>. Variation between runs must come from the model, not from you</li>
+            <li style="font-size:20px;margin-bottom:0;">Steer toward the milestone. Never hand over its answer</li>
+          </ul>
+        </div>
+      </div>
+      <div class="highlight-box" style="margin-top:16px;">The same three appear again as <strong>task level modifiers</strong>, with a target mix across the whole bank: deferred assets on <strong>40%</strong> of tasks, clarification gated on <strong>30%</strong>, revision on <strong>30%</strong>. A task may carry several. Any modifier assigned to your task has to genuinely show up in the conversation, not just in the form.</div>
+    </div>
+  </div>
+  <div class="footer-meta">Section 10 &middot; Milestones</div>
+  <div class="footer-brand">Modifiers</div>
+</div>
+<div class="slide full" id="slide-27">
+  <div class="corner-tl"></div>
+  <div class="corner-br"></div>
+  <div class="slide-inner">
+    <div class="content" style="justify-content:flex-start;">
+      <div class="section-num">Section 10</div>
+      <h1>Milestones &middot; Worked</h1>
+      <div class="tagline">A renovation audit: the scope, the contractor's tracker, a walk through video</div>
+      <div class="two-col" style="margin-top:20px;align-items:start;">
+        <div class="mini-block">
+          <h3><span style="color:#6fe39a;">&#10003;</span>&nbsp; Respects the divisions the turn has</h3>
+          <div style="font-size:19px;color:#c8d6ec;line-height:1.5;margin-bottom:10px;">Turn 1 makes four separate asks, so they are spread across separate checks:</div>
+          <ul>
+            <li>Each room's standing against what was agreed, on the range the user asked for</li>
+            <li>Which agreed items inside each room are finished and which are not</li>
+            <li>What the contractor reports set against what is actually there</li>
+            <li>Work appearing that the signed scope does not authorise</li>
+          </ul>
+        </div>
+        <div class="mini-block">
+          <h3><span style="color:#ff8a96;">&#10007;</span>&nbsp; Two ways to lose the part</h3>
+          <div style="font-size:19px;color:#f0c4c8;line-height:1.5;margin-bottom:10px;"><strong>Everything folded into one milestone.</strong> Four asks that do not collapse into each other, stated inside a single check, is a paraphrase of the prompt rather than an intent spec.</div>
+          <div style="font-size:19px;color:#f0c4c8;line-height:1.5;"><strong>The wrong standard.</strong> &ldquo;Each room is rated after comparing what the tracker says against what the agreement says&rdquo; rates progress against the <em>contractor's claim</em>, not against the scope, and it never compares the claim to what the video shows.</div>
+        </div>
+      </div>
+      <div class="highlight-box" style="margin-top:20px;">Where the divisions are genuinely arguable, either reading is fine. Whether a later turn's update and its grounding are one requirement or two is a judgement call. The line to hold is between <strong>stated</strong> and <strong>implied.</strong> A requirement spelled out earns its place wherever it sits; one the reviewer has to infer does not.</div>
+      <div class="warn-box" style="margin-top:16px;">A constraint the <em>user</em> states, such as the rating range, is not a leak. Requiring each room to be placed on it is intent. What leaks is the position a room ends up at.</div>
+    </div>
+  </div>
+  <div class="footer-meta">Section 10 &middot; Milestones</div>
+  <div class="footer-brand">Milestones Worked</div>
+</div>
+<div class="slide full" id="slide-28">
+  <div class="corner-tl"></div>
+  <div class="corner-br"></div>
+  <div class="slide-inner">
+    <div class="content" style="justify-content:flex-start;">
+      <div class="section-num">Section 11</div>
+      <h1>Leg 2 &middot; The Golden Run</h1>
+      <div class="tagline">Same prompt, same universe, a different model, and no cap on turns</div>
+      <div style="font-size:20px;color:#b8cce8;line-height:1.45;margin-top:14px;">The golden is the <strong style="color:#fff;">ideal response</strong>: what the Model A conversation should have arrived at. You are the user simulator again, and the whole job of this leg is to drive a model there.</div>
+      <div class="two-col" style="margin-top:16px;align-items:start;">
+        <div class="mini-block">
+          <h3>What changes from leg 1</h3>
+          <ul>
+            <li style="font-size:20px;margin-bottom:10px;">The <strong>same eight step workflow</strong>, the same opening prompt sent verbatim, the same universe</li>
+            <li style="font-size:20px;margin-bottom:10px;">A <strong>different model</strong> runs it. If leg 1 went against GPT, this one goes against Opus</li>
+            <li style="font-size:20px;margin-bottom:10px;"><strong>No turn limit.</strong> The two to five turn tier applied to the authoring leg only</li>
+            <li style="font-size:20px;margin-bottom:0;">Attention nudges and a cleanup turn are fine here, as long as they stay at intent level</li>
+          </ul>
+        </div>
+        <div class="mini-block">
+          <h3>The steering loop</h3>
+          <ul>
+            <li style="font-size:20px;margin-bottom:10px;">It stops at <strong>prompt agent</strong> with your opening prompt already loaded. Wait for the first response</li>
+            <li style="font-size:20px;margin-bottom:10px;">Read that response <strong>against your current milestone</strong>, not against the run you saw in leg 1</li>
+            <li style="font-size:20px;margin-bottom:10px;">Milestone met, move to the next one. Not met, hint again and read again</li>
+            <li style="font-size:20px;margin-bottom:0;">When the last milestone is satisfied, <strong>complete the conversation</strong> and the remaining steps finish on their own</li>
+          </ul>
+        </div>
+      </div>
+      <div class="mini-block" style="margin-top:16px;">
+        <h3>What a hint looks like</h3>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0 34px;align-items:start;">
+          <pre class="code" style="font-size:18px;margin-top:0;padding:14px 18px;"><span class="g">HINT</span>  I still cannot see anything from the test
+      image reflected in the video.
+<span class="r">LEAK</span>  Add the $126 price to the video.</pre>
+          <pre class="code" style="font-size:18px;margin-top:0;padding:14px 18px;"><span class="g">HINT</span>  The bathroom photos I sent should be part
+      of the room by room view by now.
+<span class="r">LEAK</span>  Mark the bathroom as finished.</pre>
+        </div>
+        <div style="font-size:19px;color:#8fa3c7;margin-top:11px;">A hint says <strong style="color:#cfe0f5;">what is still missing</strong> from the user&rsquo;s point of view. It never says what to write. If the model can copy your hint into the artifact, you handed over the answer.</div>
+      </div>
+      <div class="warn-box" style="margin-top:16px;">However many hints it takes, every one of them stays at intent level. <strong>&ldquo;Add $126&rdquo; ends the value of the leg.</strong> Steer toward the milestone, never hand over its answer, and keep the intent identical to the one you used in leg 1. Variation between the two runs has to come from the model.</div>
+    </div>
+  </div>
+  <div class="footer-meta">Section 11 &middot; Model B and Golden</div>
+  <div class="footer-brand">The Golden Run</div>
+</div>
+<div class="slide full" id="slide-29">
+  <div class="corner-tl"></div>
+  <div class="corner-br"></div>
+  <div class="slide-inner">
+    <div class="content" style="justify-content:flex-start;">
+      <div class="section-num">Section 11</div>
+      <h1>What Makes It Golden</h1>
+      <div class="tagline">The bar the artifact has to clear, and the three gates on the way out</div>
+      <div class="two-col" style="margin-top:18px;align-items:start;">
+        <div class="mini-block">
+          <h3>The artifact</h3>
+          <ul>
+            <li style="font-size:20px;margin-bottom:10px;">The <strong>same deliverable in its best form</strong>, not a different or a larger deliverable</li>
+            <li style="font-size:20px;margin-bottom:10px;">Satisfies <strong>every objective requirement</strong>, with the filenames the prompt named</li>
+            <li style="font-size:20px;margin-bottom:10px;">Every factual claim grounded in the actual inputs: images opened, videos watched, PDFs read. Nothing asserted from a filename</li>
+            <li style="font-size:20px;margin-bottom:0;">Reachable with the <strong>universe loadout alone</strong>, and it reconciles the media against at least one other source rather than reporting it</li>
+          </ul>
+        </div>
+        <div class="mini-block">
+          <h3>Three gates on the way out</h3>
+          <ul>
+            <li style="font-size:20px;margin-bottom:10px;"><strong>Prove it.</strong> You cannot move past this step until the scenario has been shown to be achievable, by achieving it</li>
+            <li style="font-size:20px;margin-bottom:10px;"><strong>Download the trajectory and the collected artifacts.</strong> Both renders are what the subjective block gets written from. Skipping it here costs you the next section</li>
+            <li style="font-size:20px;margin-bottom:0;"><strong>Trajectory Validator.</strong> It runs on the way out, the same as the rubric one. If it scores you three or below and you disagree, select <strong>No</strong> and justify it</li>
+          </ul>
+        </div>
+      </div>
+      <div class="mini-block" style="margin-top:18px;">
+        <h3>What the golden is not</h3>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0 30px;font-size:19px;color:#c8d6ec;line-height:1.4;">
+          <div><strong style="color:#5eb3ff;">Not a bigger deliverable.</strong> Sections nobody asked for make it a different task, not a better answer</div>
+          <div><strong style="color:#5eb3ff;">Not a rewritten prompt.</strong> If getting there needed the prompt changed, the prompt is what is wrong</div>
+          <div><strong style="color:#5eb3ff;">Not a lucky run.</strong> Reaching it once by accident proves nothing. You have to be able to steer it there</div>
+        </div>
+      </div>
+      <div class="mini-block" style="margin-top:18px;">
+        <h3>When the golden will not come</h3>
+        <div style="font-size:19px;color:#c8d6ec;line-height:1.45;margin-bottom:11px;">Hinting forever is the wrong response. If the ideal answer stays out of reach, the diagnosis is upstream and one of these is the reason:</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px 30px;font-size:19px;color:#c8d6ec;line-height:1.4;">
+          <div><strong style="color:#5eb3ff;">The universe does not carry it.</strong> The task needs a skill or a table the loadout never had. The idea is what has to change</div>
+          <div><strong style="color:#5eb3ff;">The milestone was written against one run.</strong> It only makes sense to a model that took leg 1&rsquo;s route. Rewrite it at intent level</div>
+          <div><strong style="color:#5eb3ff;">The prompt never named the deliverable.</strong> You are hinting your way around a gap the opening prompt should have closed</div>
+          <div><strong style="color:#5eb3ff;">Nothing in the inputs settles it.</strong> If no source answers the question, no model can, and the rubric grading it would be ungradable too</div>
+        </div>
+      </div>
+      <div class="highlight-box" style="margin-top:18px;">This leg is also what makes the <strong>50% failure gate</strong> coherent rather than contradictory. Model A has to miss at least half its criteria while the same task, the same prompt and the same universe come out right here. If you cannot reach the ideal response yourself, the scenario was never solvable and the thing to fix is the task, not the model.</div>
+    </div>
+  </div>
+  <div class="footer-meta">Section 11 &middot; Model B and Golden</div>
+  <div class="footer-brand">The Golden Bar</div>
 </div>
 <div class="slide full" id="slide-30">
   <div class="corner-tl"></div>
@@ -1519,87 +1519,7 @@ Screenshot 23-05-2026 24234324.jpg&rdquo;  <span class="r"># it is not in it</sp
   <div class="footer-meta">Section 12 &middot; Subjective Rubrics</div>
   <div class="footer-brand">Rating</div>
 </div>
-<div class="slide full" id="slide-32">
-  <div class="corner-tl"></div>
-  <div class="corner-br"></div>
-  <div class="slide-inner">
-    <div class="content" style="justify-content:flex-start;">
-      <div class="section-num">Section 13</div>
-      <h1>Before You Ship &middot; 1</h1>
-      <div class="tagline">Universe, idea, Story Draft and prompt</div>
-      <div class="two-col" style="margin-top:24px;align-items:start;">
-        <div class="mini-block">
-          <h3>Universe and idea</h3>
-          <div style="font-size:19px;color:#c8d6ec;line-height:1.75;">
-            <div>&#9744;&nbsp; Environment ID and Service Universe Artifact ID loaded</div>
-            <div>&#9744;&nbsp; Every required server and data source exists</div>
-            <div>&#9744;&nbsp; Scenario fits persona, category, subcategory and build time date</div>
-            <div>&#9744;&nbsp; Real multimodal inspection required, across 2 to 5 turns</div>
-            <div>&#9744;&nbsp; At least one core requirement depends on examining the media, with the intended level supported by artifact count</div>
-            <div>&#9744;&nbsp; Acquire &rarr; Process &rarr; Decide &rarr; Output, with real handoffs</div>
-            <div>&#9744;&nbsp; Inputs realistic and messy without leaking answers</div>
-          </div>
-        </div>
-        <div class="mini-block">
-          <h3>Story Draft and prompt</h3>
-          <div style="font-size:19px;color:#c8d6ec;line-height:1.75;">
-            <div>&#9744;&nbsp; Agent Objective states persona, stakes, problem and success, with no tool by tool steps</div>
-            <div>&#9744;&nbsp; Desired Outcome defines inspectable artifacts and decision logic without revealing answers</div>
-            <div>&#9744;&nbsp; Upload follows artifact, format, copyright, privacy and downsampling rules</div>
-            <div>&#9744;&nbsp; Opening prompt sounds natural, requires the media, and names every graded output file</div>
-            <div>&#9744;&nbsp; Policies stay in the input files; every enforced requirement appears in the prompt</div>
-            <div>&#9744;&nbsp; Follow up intents planned but wording left reactive</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="footer-meta">Section 13 &middot; Quality Control</div>
-  <div class="footer-brand">Checklist 1</div>
-</div>
-<div class="slide full" id="slide-33">
-  <div class="corner-tl"></div>
-  <div class="corner-br"></div>
-  <div class="slide-inner">
-    <div class="content" style="justify-content:flex-start;">
-      <div class="section-num">Section 13</div>
-      <h1>Before You Ship &middot; 2</h1>
-      <div class="tagline">Legs, milestones, golden and rubrics</div>
-      <div class="two-col" style="margin-top:24px;align-items:start;">
-        <div class="mini-block">
-          <h3>Model A, milestones, golden</h3>
-          <div style="font-size:19px;color:#c8d6ec;line-height:1.75;">
-            <div>&#9744;&nbsp; Every turn's artifacts downloaded before the next follow up</div>
-            <div>&#9744;&nbsp; Model A errors are genuine decisions, not infrastructure or environment defects</div>
-            <div>&#9744;&nbsp; Model A fails at least <strong style="color:#fff;">50%</strong> of total rubric weight, legitimately</div>
-            <div>&#9744;&nbsp; Milestones capture intent one requirement at a time, grouped by turn</div>
-            <div>&#9744;&nbsp; No milestone names a value, a finding or a file</div>
-            <div>&#9744;&nbsp; Model B began with the exact same opening prompt</div>
-            <div>&#9744;&nbsp; Hints stayed intent level and revealed no ground truth</div>
-            <div>&#9744;&nbsp; Golden trajectory and artifacts downloaded, both renders on hand</div>
-          </div>
-        </div>
-        <div class="mini-block">
-          <h3>Rubrics</h3>
-          <div style="font-size:19px;color:#c8d6ec;line-height:1.75;">
-            <div>&#9744;&nbsp; Criteria cover the <strong style="color:#fff;">entire</strong> Model A conversation</div>
-            <div>&#9744;&nbsp; Atomic, self contained, outcome based, prompt aligned, positively phrased</div>
-            <div>&#9744;&nbsp; Every literal string traces to the prompt or a file it points at</div>
-            <div>&#9744;&nbsp; Weights reflect difficulty axes, only &minus;5 &minus;3 &minus;1 +1 +3 +5</div>
-            <div>&#9744;&nbsp; Negative criteria within <strong style="color:#fff;">30%</strong></div>
-            <div>&#9744;&nbsp; Subjective weight within <strong style="color:#fff;">30%</strong> of the total</div>
-            <div>&#9744;&nbsp; Subjective criteria address only observable presentation, rated against both artifacts</div>
-            <div>&#9744;&nbsp; Every Model A failure carries a three part justification</div>
-            <div>&#9744;&nbsp; No contradictions between criteria</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="footer-meta">Section 13 &middot; Quality Control</div>
-  <div class="footer-brand">Checklist 2</div>
-</div>
-<div class="slide cover" id="slide-34">
+<div class="slide cover" id="slide-32">
   <div class="corner-tl"></div>
   <div class="corner-br"></div>
   <div class="slide-inner">
