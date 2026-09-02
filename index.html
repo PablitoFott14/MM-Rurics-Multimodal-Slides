@@ -318,7 +318,57 @@
       .slide { page-break-after: always; margin: 0; border: none; box-shadow: none; }
     }
   </style><style>body{padding:0;margin:0;background:#0a0e1a;}.instructions{display:none;}.slide{margin:0 auto 24px !important;}</style>
-</head><body><div class="slide cover" id="slide-0">
+<style>
+    .pdf-export {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 999;
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 12px 20px;
+      font-family: 'Inter', system-ui, sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: #e8edf7;
+      background: rgba(14, 22, 44, 0.92);
+      border: 1px solid #e63946;
+      border-radius: 4px;
+      cursor: pointer;
+      backdrop-filter: blur(6px);
+      transition: background 0.15s ease, transform 0.1s ease;
+    }
+    .pdf-export:hover { background: #e63946; }
+    .pdf-export:active { transform: translateY(1px); }
+    .pdf-export:focus-visible { outline: 2px solid #7eb8ff; outline-offset: 3px; }
+    .pdf-export svg { width: 15px; height: 15px; fill: currentColor; }
+
+    @page { size: 1920px 1080px; margin: 0; }
+
+    @media print {
+      .pdf-export { display: none !important; }
+      html, body {
+        margin: 0 !important;
+        padding: 0 !important;
+        background: #0a0e1a !important;
+      }
+      .slide {
+        margin: 0 !important;
+        border: none !important;
+        box-shadow: none !important;
+        break-inside: avoid;
+        break-after: page;
+        page-break-after: always;
+      }
+      .slide:last-of-type { break-after: auto; page-break-after: auto; }
+      html, body, .slide, .slide * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+    }
+  </style></head><body><button class="pdf-export" onclick="window.print()" title="Opens the print dialog. Choose Save as PDF - the page is already set to the slide size."><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 11.5 3.5 7l1.4-1.4L7 7.7V1h2v6.7l2.1-2.1L12.5 7 8 11.5zM2 13h12v2H2z"/></svg>Export to PDF</button>
+<div class="slide cover" id="slide-0">
   <div class="corner-tl"></div>
   <div class="corner-br"></div>
   <div class="slide-inner">
