@@ -966,13 +966,13 @@ Screenshot 23-05-2026 24234324.jpg&rdquo;  <span class="r"># it is not in it</sp
           <ul>
             <li style="font-size:20px;margin-bottom:11px;"><strong>Hinting.</strong> &ldquo;You missed the total on the receipt&rdquo; turns leg 1 into leg 2. You lose the failure you were about to grade, and the audit checks whether the simulator leaked ground truth</li>
             <li style="font-size:20px;margin-bottom:11px;"><strong>Wording fixed in advance.</strong> A turn written before you read the one it answers will contradict what the model actually did, and it reads as a script rather than a person</li>
-            <li style="font-size:20px;margin-bottom:11px;"><strong>A new topic.</strong> Follow ups build on the artifact. An unrelated ask is asking for the sake of asking, and it is a listed defect</li>
+            <li style="font-size:20px;margin-bottom:11px;"><strong>A turn that stands alone.</strong> An unrelated side request, or one added only to reach the turn count. Every turn has to advance the original intent, and tasks doing this are rejected outright</li>
             <li style="font-size:20px;margin-bottom:11px;"><strong>Nothing left to do.</strong> If turn 1 resolved everything, the follow up becomes a thank you note. That is a turn 1 problem</li>
             <li style="font-size:20px;margin-bottom:11px;"><strong>Patching your own gap.</strong> A file you forgot, a rule you left out. Fix the task and run it again instead of repairing it mid conversation</li>
           </ul>
         </div>
       </div>
-      <div class="warn-box" style="margin-top:14px;">Everything you ask for in a follow up becomes a milestone and something the rubrics have to grade. Three requests in one turn is three requirements, not one.</div>
+      <div class="warn-box" style="margin-top:14px;"><strong>The test, before you keep a turn:</strong> could this turn be completed just as well without the ones before it? If it could, it is an independent request rather than a follow up, and the task scores 2. Everything you do ask for becomes a milestone and something the rubrics have to grade, so three requests in one turn is three requirements, not one.</div>
     </div>
   </div>
   <div class="footer-meta">Section 6 &middot; Prompt Generation</div>
@@ -1319,17 +1319,18 @@ Screenshot 23-05-2026 24234324.jpg&rdquo;  <span class="r"># it is not in it</sp
           <ul>
             <li style="font-size:20px;margin-bottom:9px;">A follow up carrying three requirements produces <strong>three milestones</strong>, not one</li>
             <li style="font-size:20px;margin-bottom:9px;">Every milestone is attributable to an identifiable turn</li>
-            <li style="font-size:20px;margin-bottom:0;"><strong>No filenames and no values.</strong> &ldquo;The progress is kept in the created HTML file&rdquo; is the register expected</li>
+            <li style="font-size:20px;margin-bottom:9px;"><strong>No filenames and no values.</strong> &ldquo;The progress is kept in the created HTML file&rdquo; is the register expected</li>
+            <li style="font-size:20px;margin-bottom:0;"><strong>No route either.</strong> Naming how the agent should get there, rather than what the user wants, is a leak unless the user asked for exactly that</li>
           </ul>
         </div>
         <div class="mini-block">
-          <h3>Intent, never the answer</h3>
-          <pre class="code" style="font-size:18px;margin-top:0;padding:13px 18px;"><span class="g">INTENT</span>  The information from the test image is added
-        to the video.
+          <h3>Intent, never the answer or the route</h3>
+          <pre class="code" style="font-size:18px;margin-top:0;padding:13px 18px;"><span class="g">INTENT</span>  The information from the test image is added to the video.
 <span class="r">ANSWER</span>  Add the $126 price to the video.
-<span class="g">INTENT</span>  The new photographs are taken into the existing
-        room by room assessment.
-<span class="r">ANSWER</span>  The bathroom moves to finished.</pre>
+<span class="g">INTENT</span>  The new photographs reach the room by room assessment.
+<span class="r">ANSWER</span>  The bathroom moves to finished.
+<span class="g">INTENT</span>  The records the task needs are found.
+<span class="r">ROUTE</span>   The studio&rsquo;s records are searched, not asked for.</pre>
         </div>
       </div>
       <div class="warn-box" style="margin-top:14px;"><strong>The test:</strong> if a milestone only makes sense against the wording the first model produced, rewrite it so it still lands on a run that took another path.</div>
