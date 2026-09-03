@@ -319,11 +319,13 @@
     }
   </style><style>body{padding:0;margin:0;background:#0a0e1a;}.instructions{display:none;}.slide{margin:0 auto 24px !important;}</style>
 <style>
-    /* Clear of the slide's top right corner bracket, which runs to y=77.
-       The 19px below it matches the 20px inset on the right. */
+    /* The buttons are fixed to the viewport, so they sit in the strip the
+       responsive block reserves above the first slide (--deck-top). That keeps
+       them off the slide's top right corner bracket at every window size,
+       which nudging them down could only ever manage at one. */
     .deck-export {
       position: fixed;
-      top: 96px;
+      top: 16px;
       right: 20px;
       z-index: 999;
       display: flex;
@@ -375,8 +377,39 @@
         print-color-adjust: exact !important;
       }
     }
+  </style><style>
+    :root { --deck-scale: 1; --deck-top: 76px; }
+
+    body { padding-top: var(--deck-top) !important; }
+
+    .slide-fit {
+      width: calc(1920px * var(--deck-scale));
+      height: calc(1080px * var(--deck-scale));
+      margin: 0 auto 24px;
+      overflow: hidden;
+    }
+    .slide-fit > .slide {
+      transform: scale(var(--deck-scale));
+      transform-origin: top left;
+      margin: 0 !important;
+    }
+
+    /* Print has to get the unscaled frame back, and it cannot go through
+       --deck-scale to do it: the fitting script sets that variable inline on
+       the root element, which outranks anything a media query can say. These
+       rules bypass the variable instead. */
+    @media print {
+      body { padding-top: 0 !important; }
+      .slide-fit {
+        width: 1920px !important;
+        height: 1080px !important;
+        margin: 0 !important;
+        overflow: visible;
+      }
+      .slide-fit > .slide { transform: none !important; }
+    }
   </style></head><body><div class="deck-export"><button id="export-pdf" onclick="window.print()" title="Opens the print dialog. Choose Save as PDF - the page is already set to the slide size."><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 11.5 3.5 7l1.4-1.4L7 7.7V1h2v6.7l2.1-2.1L12.5 7 8 11.5zM2 13h12v2H2z"/></svg>Export to PDF</button><button id="export-pptx" title="Builds a 16:9 PowerPoint deck, one slide per slide."><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 11.5 3.5 7l1.4-1.4L7 7.7V1h2v6.7l2.1-2.1L12.5 7 8 11.5zM2 13h12v2H2z"/></svg>Export to PPTX</button></div>
-<div class="slide cover" id="slide-0">
+<div class="slide-fit"><div class="slide cover" id="slide-0">
   <div class="corner-tl"></div>
   <div class="corner-br"></div>
   <div class="slide-inner">
@@ -392,8 +425,8 @@
   </div>
   <div class="footer-meta">Intro Course</div>
   <div class="footer-brand">OpenClaw MM &middot; Multi Turn</div>
-</div>
-<div class="slide full" id="slide-1">
+</div></div>
+<div class="slide-fit"><div class="slide full" id="slide-1">
   <div class="corner-tl"></div>
   <div class="corner-br"></div>
   <div class="slide-inner">
@@ -429,8 +462,8 @@
   </div>
   <div class="footer-meta">Section 1 &middot; Intro</div>
   <div class="footer-brand">Your Role</div>
-</div>
-<div class="slide full" id="slide-2">
+</div></div>
+<div class="slide-fit"><div class="slide full" id="slide-2">
   <div class="corner-tl"></div>
   <div class="corner-br"></div>
   <div class="slide-inner">
@@ -453,8 +486,8 @@
   </div>
   <div class="footer-meta">Section 1 &middot; Intro</div>
   <div class="footer-brand">Key Terms</div>
-</div>
-<div class="slide full" id="slide-3">
+</div></div>
+<div class="slide-fit"><div class="slide full" id="slide-3">
   <div class="corner-tl"></div>
   <div class="corner-br"></div>
   <div class="slide-inner">
@@ -491,8 +524,8 @@
   </div>
   <div class="footer-meta">Section 2 &middot; Project Overview</div>
   <div class="footer-brand">Workflow</div>
-</div>
-<div class="slide" id="slide-4">
+</div></div>
+<div class="slide-fit"><div class="slide" id="slide-4">
   <div class="corner-tl"></div>
   <div class="corner-br"></div>
   <div class="slide-inner">
@@ -520,8 +553,8 @@
   </div>
   <div class="footer-meta">Section 2 &middot; Project Overview</div>
   <div class="footer-brand">Hard Rules</div>
-</div>
-<div class="slide full" id="slide-5">
+</div></div>
+<div class="slide-fit"><div class="slide full" id="slide-5">
   <div class="corner-tl"></div>
   <div class="corner-br"></div>
   <div class="slide-inner">
@@ -545,8 +578,8 @@
   </div>
   <div class="footer-meta">Section 2 &middot; Project Overview</div>
   <div class="footer-brand">Deliverables</div>
-</div>
-<div class="slide" id="slide-6">
+</div></div>
+<div class="slide-fit"><div class="slide" id="slide-6">
   <div class="corner-tl"></div>
   <div class="corner-br"></div>
   <div class="slide-inner">
@@ -576,8 +609,8 @@
   </div>
   <div class="footer-meta">Section 2 &middot; Project Overview</div>
   <div class="footer-brand">Three Stages</div>
-</div>
-<div class="slide full" id="slide-7">
+</div></div>
+<div class="slide-fit"><div class="slide full" id="slide-7">
   <div class="corner-tl"></div>
   <div class="corner-br"></div>
   <div class="slide-inner">
@@ -616,8 +649,8 @@
   </div>
   <div class="footer-meta">Section 2 &middot; Project Overview</div>
   <div class="footer-brand">Architecture</div>
-</div>
-<div class="slide full" id="slide-8">
+</div></div>
+<div class="slide-fit"><div class="slide full" id="slide-8">
   <div class="corner-tl"></div>
   <div class="corner-br"></div>
   <div class="slide-inner">
@@ -638,8 +671,8 @@
   </div>
   <div class="footer-meta">Section 2 &middot; Project Overview</div>
   <div class="footer-brand">Dimensions</div>
-</div>
-<div class="slide full" id="slide-9">
+</div></div>
+<div class="slide-fit"><div class="slide full" id="slide-9">
   <div class="corner-tl"></div>
   <div class="corner-br"></div>
   <div class="slide-inner">
@@ -661,8 +694,8 @@
   </div>
   <div class="footer-meta">Section 2 &middot; Project Overview</div>
   <div class="footer-brand">Categories</div>
-</div>
-<div class="slide" id="slide-10">
+</div></div>
+<div class="slide-fit"><div class="slide" id="slide-10">
   <div class="corner-tl"></div>
   <div class="corner-br"></div>
   <div class="slide-inner">
@@ -699,8 +732,8 @@
   </div>
   <div class="footer-meta">Section 4 &middot; Building the Idea</div>
   <div class="footer-brand">Universe First</div>
-</div>
-<div class="slide full" id="slide-11">
+</div></div>
+<div class="slide-fit"><div class="slide full" id="slide-11">
   <div class="corner-tl"></div>
   <div class="corner-br"></div>
   <div class="slide-inner">
@@ -740,8 +773,8 @@
   </div>
   <div class="footer-meta">Section 4 &middot; Building the Idea</div>
   <div class="footer-brand">Dates And Tools</div>
-</div>
-<div class="slide full" id="slide-12">
+</div></div>
+<div class="slide-fit"><div class="slide full" id="slide-12">
   <div class="corner-tl"></div>
   <div class="corner-br"></div>
   <div class="slide-inner">
@@ -775,8 +808,8 @@
   </div>
   <div class="footer-meta">Section 4 &middot; Building the Idea</div>
   <div class="footer-brand">Universe And Multimodal</div>
-</div>
-<div class="slide full" id="slide-13">
+</div></div>
+<div class="slide-fit"><div class="slide full" id="slide-13">
   <div class="corner-tl"></div>
   <div class="corner-br"></div>
   <div class="slide-inner">
@@ -809,8 +842,8 @@
   </div>
   <div class="footer-meta">Section 4 &middot; Building the Idea</div>
   <div class="footer-brand">Idea Quality</div>
-</div>
-<div class="slide full" id="slide-14">
+</div></div>
+<div class="slide-fit"><div class="slide full" id="slide-14">
   <div class="corner-tl"></div>
   <div class="corner-br"></div>
   <div class="slide-inner">
@@ -846,8 +879,8 @@
   </div>
   <div class="footer-meta">Section 5 &middot; Story Draft</div>
   <div class="footer-brand">Story Draft</div>
-</div>
-<div class="slide full" id="slide-15">
+</div></div>
+<div class="slide-fit"><div class="slide full" id="slide-15">
   <div class="corner-tl"></div>
   <div class="corner-br"></div>
   <div class="slide-inner">
@@ -892,8 +925,8 @@ candidate_3_no_case_studies.pdf   <span class="c"># leaks the finding</span></pr
   </div>
   <div class="footer-meta">Section 5 &middot; Story Draft</div>
   <div class="footer-brand">Input Files</div>
-</div>
-<div class="slide full" id="slide-16">
+</div></div>
+<div class="slide-fit"><div class="slide full" id="slide-16">
   <div class="corner-tl"></div>
   <div class="corner-br"></div>
   <div class="slide-inner">
@@ -933,8 +966,8 @@ Screenshot 23-05-2026 24234324.jpg&rdquo;  <span class="r"># it is not in it</sp
   </div>
   <div class="footer-meta">Section 6 &middot; Prompt Generation</div>
   <div class="footer-brand">Prompt Rules</div>
-</div>
-<div class="slide full" id="slide-17">
+</div></div>
+<div class="slide-fit"><div class="slide full" id="slide-17">
   <div class="corner-tl"></div>
   <div class="corner-br"></div>
   <div class="slide-inner">
@@ -979,8 +1012,8 @@ Screenshot 23-05-2026 24234324.jpg&rdquo;  <span class="r"># it is not in it</sp
   </div>
   <div class="footer-meta">Section 6 &middot; Prompt Generation</div>
   <div class="footer-brand">Follow Ups</div>
-</div>
-<div class="slide full" id="slide-18">
+</div></div>
+<div class="slide-fit"><div class="slide full" id="slide-18">
   <div class="corner-tl"></div>
   <div class="corner-br"></div>
   <div class="slide-inner">
@@ -1015,8 +1048,8 @@ Screenshot 23-05-2026 24234324.jpg&rdquo;  <span class="r"># it is not in it</sp
   </div>
   <div class="footer-meta">Section 6 &middot; Prompt Generation</div>
   <div class="footer-brand">Prompt Checklist</div>
-</div>
-<div class="slide" id="slide-19">
+</div></div>
+<div class="slide-fit"><div class="slide" id="slide-19">
   <div class="corner-tl"></div>
   <div class="corner-br"></div>
   <div class="slide-inner">
@@ -1046,8 +1079,8 @@ Screenshot 23-05-2026 24234324.jpg&rdquo;  <span class="r"># it is not in it</sp
   </div>
   <div class="footer-meta">Section 7 &middot; Task Runner</div>
   <div class="footer-brand">Two Legs</div>
-</div>
-<div class="slide full" id="slide-20">
+</div></div>
+<div class="slide-fit"><div class="slide full" id="slide-20">
   <div class="corner-tl"></div>
   <div class="corner-br"></div>
   <div class="slide-inner">
@@ -1086,8 +1119,8 @@ Screenshot 23-05-2026 24234324.jpg&rdquo;  <span class="r"># it is not in it</sp
   </div>
   <div class="footer-meta">Section 7 &middot; Task Runner</div>
   <div class="footer-brand">Model A</div>
-</div>
-<div class="slide full" id="slide-21">
+</div></div>
+<div class="slide-fit"><div class="slide full" id="slide-21">
   <div class="corner-tl"></div>
   <div class="corner-br"></div>
   <div class="slide-inner">
@@ -1128,8 +1161,8 @@ Screenshot 23-05-2026 24234324.jpg&rdquo;  <span class="r"># it is not in it</sp
   </div>
   <div class="footer-meta">Section 8 &middot; Valid vs Invalid Failures</div>
   <div class="footer-brand">Failure Judgement</div>
-</div>
-<div class="slide full" id="slide-22">
+</div></div>
+<div class="slide-fit"><div class="slide full" id="slide-22">
   <div class="corner-tl"></div>
   <div class="corner-br"></div>
   <div class="slide-inner">
@@ -1195,8 +1228,8 @@ Screenshot 23-05-2026 24234324.jpg&rdquo;  <span class="r"># it is not in it</sp
   </div>
   <div class="footer-meta">Section 9 &middot; Objective Rubrics</div>
   <div class="footer-brand">Anatomy</div>
-</div>
-<div class="slide full" id="slide-23">
+</div></div>
+<div class="slide-fit"><div class="slide full" id="slide-23">
   <div class="corner-tl"></div>
   <div class="corner-br"></div>
   <div class="slide-inner">
@@ -1255,8 +1288,8 @@ Screenshot 23-05-2026 24234324.jpg&rdquo;  <span class="r"># it is not in it</sp
   </div>
   <div class="footer-meta">Section 9 &middot; Objective Rubrics</div>
   <div class="footer-brand">Category &amp; Weight</div>
-</div>
-<div class="slide full" id="slide-24">
+</div></div>
+<div class="slide-fit"><div class="slide full" id="slide-24">
   <div class="corner-tl"></div>
   <div class="corner-br"></div>
   <div class="slide-inner">
@@ -1296,8 +1329,8 @@ Screenshot 23-05-2026 24234324.jpg&rdquo;  <span class="r"># it is not in it</sp
   </div>
   <div class="footer-meta">Section 9 &middot; Objective Rubrics</div>
   <div class="footer-brand">Building the Block</div>
-</div>
-<div class="slide full" id="slide-25">
+</div></div>
+<div class="slide-fit"><div class="slide full" id="slide-25">
   <div class="corner-tl"></div>
   <div class="corner-br"></div>
   <div class="slide-inner">
@@ -1340,8 +1373,8 @@ Screenshot 23-05-2026 24234324.jpg&rdquo;  <span class="r"># it is not in it</sp
   </div>
   <div class="footer-meta">Section 10 &middot; Milestones</div>
   <div class="footer-brand">Milestones</div>
-</div>
-<div class="slide full" id="slide-26">
+</div></div>
+<div class="slide-fit"><div class="slide full" id="slide-26">
   <div class="corner-tl"></div>
   <div class="corner-br"></div>
   <div class="slide-inner">
@@ -1379,8 +1412,8 @@ Screenshot 23-05-2026 24234324.jpg&rdquo;  <span class="r"># it is not in it</sp
   </div>
   <div class="footer-meta">Section 10 &middot; Milestones</div>
   <div class="footer-brand">Modifiers</div>
-</div>
-<div class="slide full" id="slide-27">
+</div></div>
+<div class="slide-fit"><div class="slide full" id="slide-27">
   <div class="corner-tl"></div>
   <div class="corner-br"></div>
   <div class="slide-inner">
@@ -1411,8 +1444,8 @@ Screenshot 23-05-2026 24234324.jpg&rdquo;  <span class="r"># it is not in it</sp
   </div>
   <div class="footer-meta">Section 10 &middot; Milestones</div>
   <div class="footer-brand">Milestones Worked</div>
-</div>
-<div class="slide full" id="slide-28">
+</div></div>
+<div class="slide-fit"><div class="slide full" id="slide-28">
   <div class="corner-tl"></div>
   <div class="corner-br"></div>
   <div class="slide-inner">
@@ -1458,8 +1491,8 @@ Screenshot 23-05-2026 24234324.jpg&rdquo;  <span class="r"># it is not in it</sp
   </div>
   <div class="footer-meta">Section 11 &middot; Model B and Golden</div>
   <div class="footer-brand">The Golden Run</div>
-</div>
-<div class="slide full" id="slide-29">
+</div></div>
+<div class="slide-fit"><div class="slide full" id="slide-29">
   <div class="corner-tl"></div>
   <div class="corner-br"></div>
   <div class="slide-inner">
@@ -1509,8 +1542,8 @@ Screenshot 23-05-2026 24234324.jpg&rdquo;  <span class="r"># it is not in it</sp
   </div>
   <div class="footer-meta">Section 11 &middot; Model B and Golden</div>
   <div class="footer-brand">The Golden Bar</div>
-</div>
-<div class="slide full" id="slide-30">
+</div></div>
+<div class="slide-fit"><div class="slide full" id="slide-30">
   <div class="corner-tl"></div>
   <div class="corner-br"></div>
   <div class="slide-inner">
@@ -1546,8 +1579,8 @@ Screenshot 23-05-2026 24234324.jpg&rdquo;  <span class="r"># it is not in it</sp
   </div>
   <div class="footer-meta">Section 12 &middot; Subjective Rubrics</div>
   <div class="footer-brand">Scope &amp; Weights</div>
-</div>
-<div class="slide full" id="slide-31">
+</div></div>
+<div class="slide-fit"><div class="slide full" id="slide-31">
   <div class="corner-tl"></div>
   <div class="corner-br"></div>
   <div class="slide-inner">
@@ -1577,8 +1610,8 @@ Screenshot 23-05-2026 24234324.jpg&rdquo;  <span class="r"># it is not in it</sp
   </div>
   <div class="footer-meta">Section 12 &middot; Subjective Rubrics</div>
   <div class="footer-brand">Rating</div>
-</div>
-<div class="slide cover" id="slide-32">
+</div></div>
+<div class="slide-fit"><div class="slide cover" id="slide-32">
   <div class="corner-tl"></div>
   <div class="corner-br"></div>
   <div class="slide-inner">
@@ -1597,7 +1630,52 @@ Screenshot 23-05-2026 24234324.jpg&rdquo;  <span class="r"># it is not in it</sp
   </div>
   <div class="footer-meta">Intro Course</div>
   <div class="footer-brand">OpenClaw MM &middot; Multi Turn</div>
-</div>
+</div></div>
+<script>
+(function () {
+  var root = document.documentElement;
+
+  function fit() {
+    var strip = parseFloat(getComputedStyle(root).getPropertyValue('--deck-top')) || 0;
+    var w = root.clientWidth;
+    var h = root.clientHeight - strip - 24;   // 24 matches the gap between slides
+    var s = Math.min(w / 1920, h / 1080);
+    if (!isFinite(s) || s <= 0) { s = 1; }
+    root.style.setProperty('--deck-scale', s);
+  }
+
+  // Rescaling changes every slide's height, so the scroll position would
+  // otherwise drift to a different slide on each resize. Hold whichever slide
+  // is nearest the top of the window and put it back afterwards.
+  function fitKeepingPlace() {
+    var wraps = document.querySelectorAll('.slide-fit');
+    var anchor = null, best = Infinity;
+    for (var i = 0; i < wraps.length; i++) {
+      var d = Math.abs(wraps[i].getBoundingClientRect().top);
+      if (d < best) { best = d; anchor = wraps[i]; }
+    }
+    fit();
+    if (anchor) { window.scrollTo(0, anchor.offsetTop); }
+  }
+
+  window.deckFit = fit;
+  window.addEventListener('resize', fitKeepingPlace);
+  window.addEventListener('orientationchange', fitKeepingPlace);
+  fit();
+
+  // A deep link lands before the slides have been scaled, so the position it
+  // scrolled to is no longer the slide it was aiming at. Send it there again.
+  function reanchorHash() {
+    if (!location.hash) { return; }
+    var el = document.querySelector(location.hash);
+    if (el) { window.scrollTo(0, (el.parentElement || el).offsetTop); }
+  }
+  window.addEventListener('load', function () { fit(); reanchorHash(); });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { fit(); reanchorHash(); });
+  }
+})();
+</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js" crossorigin="anonymous"></script>
 <script>
@@ -1617,6 +1695,11 @@ Screenshot 23-05-2026 24234324.jpg&rdquo;  <span class="r"># it is not in it</sp
     pptx.defineLayout({ name: 'DECK169', width: 13.333, height: 7.5 });
     pptx.layout = 'DECK169';
 
+    // Capture at 1:1. The slides carry a CSS transform to fit the window, and
+    // html2canvas would otherwise rasterise them at whatever the window is.
+    document.documentElement.style.setProperty('--deck-scale', 1);
+    function unfit() { if (window.deckFit) { window.deckFit(); } }
+
     var chain = Promise.resolve();
     Array.prototype.forEach.call(slides, function (el, i) {
       chain = chain.then(function () {
@@ -1633,7 +1716,15 @@ Screenshot 23-05-2026 24234324.jpg&rdquo;  <span class="r"># it is not in it</sp
         });
       });
     });
-    return chain.then(function () { return pptx.write({ outputType: 'blob' }); });
+    return chain.then(function () {
+      return pptx.write({ outputType: 'blob' });
+    }).then(function (blob) {
+      unfit();
+      return blob;
+    }, function (err) {
+      unfit();
+      throw err;
+    });
   };
 
   btn.addEventListener('click', function () {
